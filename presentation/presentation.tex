@@ -1,0 +1,90 @@
+\documentclass{beamer}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+\title{527 Presentation}
+\author{\_, \_, \_, Milton Rosenbaum}
+\institute{Comp 527}
+\date{2025}
+
+% citations
+% Logical Expressivism and Logical Relations, Lionel Shapiro
+
+% "Thus, an account of what makes some vocabulary logical vocabulary must appeal to the fact that this vocabulary allows one to express what follows from what and what is incompatible with what. " https://philpapers.org/browse/logical-expressivism
+
+%  
+
+\usetheme{Frankfurt}
+\usecolortheme{seahorse}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Lambda Cube}
+
+\begin{frame}{The Cube}
+\[\begin{tikzcd}[ampersand replacement=\&, row sep=3.4em]
+    \& \lambda\omega \arrow[rr] \arrow[from=dd] \&\& \lambda C \\
+    \lambda \textbf{2} \arrow[ur] \arrow[rr, crossing over] \&\& \lambda \textbf{P2} \arrow[ur] \& \\
+	\& \lambda\underline{\omega} \arrow[rr] \&\& \lambda \textbf{P} \underline{\omega} \arrow[uu] \\
+	\lambda\rightarrow \arrow[uu] \arrow[rr] \arrow[ur] \&\& \lambda \textbf{P} \arrow[ur] \arrow[uu, crossing over]
+\end{tikzcd}\]
+\end{frame}
+
+\begin{frame}{Lots of Systems}
+    In this diagram, eight systems are defined. The arrow represents $\subseteq$, so the weakest system is the simply typed lambda calculus, at the bottom left. Other named systems are $\lambda 2$, which is equivalent to system $\textbf{F}$, which is the polymorphic lambda calculus. $\lambda\omega$ is equivalent to $F\omega$, which was proposed by Girard, $\lambda P$ is equivalent to the "automath" language, and is sometimes called $LF$.
+\end{frame}
+
+\begin{frame}{Parameterized \& Homogeneous}
+    \[
+    \begin{array}{l|cccc}
+\lambda\rightarrow & (\star, \star)\\
+\lambda \textbf{2} & (\star, \star) & (\Box, \star) \\
+\lambda \underline\omega & (\star, \star) && (\Box, \Box) \\
+\lambda \omega& (\star, \star) & (\Box, \star) & (\Box, \Box) \\
+\lambda\textbf{P} & (\star, \star) &&& (\star, \Box)\\
+\lambda \textbf{P2} & (\star, \star) & (\Box, \star)&& (\star, \Box) \\
+\lambda \textbf{P}\underline\omega & (\star, \star) && (\Box, \Box)& (\star, \Box) \\
+\lambda \textbf{P}\omega& (\star, \star) & (\Box, \star) & (\Box, \Box)&(\star, \Box) \\
+
+\end{array}
+    \]
+\end{frame}
+
+\begin{frame}{Just change two two rules!}
+    \[
+    \begin{array}{lc}
+\Pi{-}rule & \dfrac{\Gamma \vdash A : s_1\quad \Gamma, x : A \vdash B : s_2}{\Gamma \vdash (\Pi x : A . B) : s_3} \\[1cm]
+\lambda{-}rule &\dfrac{\Gamma \vdash A : s_1\quad \Gamma, x : A \vdash b : B\quad \Gamma, x : A \vdash B : s_2}{\Gamma (\lambda x: A .b) : (\Pi x : A . B)}
+\end{array}
+    \]
+\end{frame}
+
+\section{Generalized type systems}
+
+\begin{frame}{What are they}
+    
+\end{frame}
+
+\begin{frame}{Even more systems}
+    
+\end{frame}
+
+\section{Project}
+
+\begin{frame}{Mechanize Proof for Each PTS}
+    
+\end{frame}
+
+\begin{frame}{Tasks}
+    
+\end{frame}
+
+\begin{frame}{Obstacles}
+    
+\end{frame}
+
+\end{document}
+

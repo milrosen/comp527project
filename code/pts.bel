@@ -1,0 +1,22 @@
+LF s : type =
+    | star : s
+    | box : s
+;
+
+LF o : type =
+    | lam : o → (o → o) → o
+    | pi : o → (o → o) → o
+    | const : s -> o
+;
+
+LF pts : o → type =
+    | axiom : pts (const star) → pts (const box)
+    | start : pts (const star)
+    | ΠE :  pts (pi A (\x . B x)) → {a : pts A} →
+        pts (B a)
+;
+
+% I don't think I can do CoC in LF, much less PTS. Will think more
+
+rec check : [ ⊢ pts (const box) ] = 
+    [ ⊢ axiom (start)];
