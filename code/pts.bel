@@ -12,7 +12,7 @@ LF o : type =
 LF pts : o → type =
     | axiom : pts (const star) → pts (const box)
     | start : pts (const star)
-    | ΠE :  pts (pi A (\x . B x)) → {a : pts A} →
+    | ΠE :  pts (pi A (\x . B x)) → {a : pts A} 
         pts (B a)
 ;
 
