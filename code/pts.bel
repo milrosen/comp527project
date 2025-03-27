@@ -27,11 +27,6 @@ LF pts : o → o → type =
         pts (pi A B) (const s3)
     | λI : rules s1 s2 s3 → pts A (const s1) → (pts x A → pts (b x) (B x)) → (pts x A → pts (B x) (const s2)) →
         pts (lam A b) (pi A B)
-LF pts : o → type =
-    | axiom : pts (const star) → pts (const box)
-    | start : pts (const star)
-    | ΠE :  pts (pi A (\x . B x)) → {a : pts A} 
-        pts (B a)
 ;
 
 % Do I need to write a equiv rule? Does this need to be a typing judgement?
