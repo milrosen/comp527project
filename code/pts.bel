@@ -3,20 +3,36 @@ LF s : type =
     | box : s
 ;
 
+LF axioms : s → s → type =
+    | axi : axioms star box
+;
+
+LF rules : s → s → s → type =
+    | rule : rules star star star
+;
+
 LF o : type =
     | lam : o → (o → o) → o
     | pi : o → (o → o) → o
-    | const : s -> o
+    | app : o → o → o
+    | const : s → o
 ;
 
-LF pts : o → type =
-    | axiom : pts (const star) → pts (const box)
-    | start : pts (const star)
-    | ΠE :  pts (pi A (\x . B x)) → {a : pts A} →
-        pts (B a)
+LF pts : o → o → type =
+    | axiom : axioms s1 s2 → pts (const s1) (const s2)
+    | start : pts A (const s1) → (pts x A → pts x A)
+    | ΠE : pts F (pi A B) → pts a A → 
+        pts (app F a) (B a)
+    | ΠI : rules s1 s2 s3 → pts A (const s1) → (pts x A → pts (B x) (const s2)) →
+        pts (pi A B) (const s3)
+    | λI : rules s1 s2 s3 → pts A (const s1) → (pts x A → pts (b x) (B x)) → (pts x A → pts (B x) (const s2)) →
+        pts (lam A b) (pi A B)
 ;
 
-% I don't think I can do CoC in LF, much less PTS. Will think more
+% Do I need to write a equiv rule? Does this need to be a typing judgement?
 
-rec check : [ ⊢ pts (const box) ] = 
-    [ ⊢ axiom (start)];
+schema ctx = some [A:o, S:s, P : pts A (const S)] block (x:o, d : pts x A);
+
+% ill typed
+rec check : [z:o, d:pts A[] (const star) ⊢ pts (lam A[] \x.x) (pi A[] \x.A[])] = 
+[d:pts A[] (const star) ⊢ λI rule d (\u . ΠI rule d \x.d)] ;
