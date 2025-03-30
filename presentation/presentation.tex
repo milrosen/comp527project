@@ -37,6 +37,16 @@
     In this diagram, eight systems are defined. The arrow represents $\subseteq$, so the weakest system is the simply typed lambda calculus, at the bottom left. Other named systems are $\lambda 2$, which is equivalent to system $\textbf{F}$, which is the polymorphic lambda calculus. $\lambda\omega$ is equivalent to $F\omega$, which was proposed by Girard, $\lambda P$ is equivalent to the "automath" language, and is sometimes called $LF$.
 \end{frame}
 
+\begin{frame}{Kinds of Dependencies}
+    \[\begin{array}{c|l}
+        (\star, \star) & \text{Terms can depend on terms} \\
+        (\Box, \star) & \text{Terms can depend on types} \\
+        (\star, \Box) & \text{Types can depend on terms} \\
+        (\Box, \Box) & \text{Types can depend on types} \\
+    \end{array}
+    \]
+\end{frame}
+
 \begin{frame}{Parameterized \& Homogeneous}
     \[
     \begin{array}{l|cccc}
@@ -53,6 +63,8 @@
     \]
 \end{frame}
 
+
+
 \begin{frame}{Just change two two rules!}
     \[
     \begin{array}{lc}
@@ -65,25 +77,45 @@
 \section{Generalized type systems}
 
 \begin{frame}{What are they}
-    
+    In addition to $\Box$ and $\star$, we can add arbitrary sorts and axiom relations. A GTS, $\lambda(S, A, R)$ can be described as 
+    \begin{itemize}
+        \item<1-> S : a set of sorts, for example $\star, \Box$
+        \item<2-> A : a set of axioms, $\star : \Box$
+        \item<3-> R : a set of rules, the valid ways to parameterize the $\lambda$ and $\Pi$ rules. $\lambda C$ has all of the pairs of sorts.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Even more systems}
-    
+    A surprising number of systems can be defined as PTSs:
+    \begin{itemize}
+        \item<1-> $\lambda C'$ = $(\star^t, \star^p, \Box), (\star^t : \Box, \star^p : \Box), (S^2, \text{ that is, all pairs})$
+        \item<2-> $\lambda U$ = $[\star, \Box, \Delta], [\star : \Box, \Box : \Delta], [(\star, \star), (\Box, \star), (\Box, \Box), (\Delta, \Box), (\Delta, \star)]$
+    \end{itemize}
 \end{frame}
 
 \section{Project}
 
 \begin{frame}{Mechanize Proof for Each PTS}
-    
+    since so many systems are easily describable as GTSs, it would be nice to prove some properties about the systems in general. \\
+    In our project, we plan to: 
+    \begin{itemize}
+        \item<1-> Mechanize Arbitrary PTSs in Beluga
+        \item<2-> Prove Preservation and Progress for a generalized PTS
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Tasks}
-    
+    \begin{itemize}
+        \item<1-> Milton: Implementing Generalized PTSs in Beluga, mechanizing the proofs
+        \item<2-> Everyone else: Everything else!
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Obstacles}
-    
+    \begin{itemize}
+        \item<1-> Programming in Beluga is \textit{hard}. 
+        \item<2-> Like, really hard. 
+    \end{itemize}
 \end{frame}
 
 \end{document}
