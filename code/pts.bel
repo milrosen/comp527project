@@ -29,9 +29,8 @@ LF pts : o → o → type =
         pts (lam A b) (pi A B)
 ;
 
-% Do I need to write a equiv rule? Does this need to be a typing judgement?
 
 schema ctx = some [A:o, S:s, P : pts A (const S)] block (x:o, d : pts x A);
 
-rec check : [A:o, d:pts A (const star) ⊢ pts (lam A \x.x) (pi A \x.A)] = 
+rec check : [A:o, D:pts A (const star) ⊢ pts (lam A \x.x) (pi A \x.A)] = 
 [A:o, D:pts A (const star) ⊢ λI rule D (\x. start D) (\x. D)] ;
