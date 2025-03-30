@@ -20,7 +20,7 @@
         \[\begin{tikzcd}[ampersand replacement=\&, row sep=3.4em]
             \& \lambda\omega \arrow[rr] \arrow[from=dd] \&\& \lambda C \\
             \lambda \textbf{2} \arrow[ur] \arrow[rr, crossing over] \&\& \lambda \textbf{P2} \arrow[ur] \& \\
-            \& \lambda\underline{\omega} \arrow[rr] \&\& \lambda \textbf{P} \underline{\omega} \arrow[uu] \\
+            \& \lambda\underline{\omega} \arrow[rr] \&\& \lambda\textbf{P} \underline{\omega} \arrow[uu] \\
             \lambda_\rightarrow \arrow[uu] \arrow[rr] \arrow[ur] \&\& \lambda \textbf{P} \arrow[ur] \arrow[uu, crossing over]
         \end{tikzcd}\]
     \end{frame}
@@ -61,17 +61,21 @@
     \section{Generalized type systems}
 
     \begin{frame}{What are they}
-        In addition to $\Box$ and $\star$, we can add arbitrary sorts and axiom relations. A GTS, $\lambda(S, A, R)$ can be described as 
+        In addition to $\Box$ and $\star$, we can add arbitrary sorts and axiom relations. A \textit{pure type system} $\lambda(S, A, R)$ can be described as 
         \begin{itemize}
             \item<1-> S : a set of sorts, for example $\star, \Box$
+                \pause
             \item<2-> A : a set of axioms, $\star : \Box$
+                \pause
             \item<3-> R : a set of rules, the valid ways to parameterize the $\lambda$ and $\Pi$ rules. $\lambda C$ has all of the pairs of sorts.
         \end{itemize}
+        \pause
+        We abbreviate `pure type system' by PTS.
     \end{frame}
 
     \begin{frame}{Even more systems}
         A surprising number of systems can be defined as PTSs:
-        \begin{itemize}
+        \begin{itemize}\small
             \item<1-> $\lambda C'$ = $(\star^t, \star^p, \Box), (\star^t : \Box, \star^p : \Box), (S^2, \text{ that is, all pairs})$
             \item<2-> $\lambda U$ = $[\star, \Box, \Delta], [\star : \Box, \Box : \Delta], [(\star, \star), (\Box, \star), (\Box, \Box), (\Delta, \Box), (\Delta, \star)]$
         \end{itemize}
@@ -80,25 +84,27 @@
     \section{Project}
 
     \begin{frame}{Mechanize Proof for Each PTS}
-        Since so many systems are easily describable as GTSs, it would be nice to prove some properties about the systems in general. \\
+        Since so many systems are easily describable as PTSs, it would be nice to prove some properties about the systems in general. \\
         In our project, we plan to: 
         \begin{itemize}
-            \item<1-> Mechanize Arbitrary PTSs in Beluga
-            \item<2-> Prove Preservation and Progress for a generalized PTS
+            \item<1-> Mechanize Arbitrary PTSs in Beluga.
+            \item<2-> Prove Subject Reduction for generalized PTSs.
         \end{itemize}
     \end{frame}
 
     \begin{frame}{Tasks}
         \begin{itemize}
-            \item<1-> Milton: Implementing Generalized PTSs in Beluga, mechanizing the proofs
-            \item<2-> Everyone else: Everything else!
+            \item<1-> Milton: Implementing PTSs in Beluga and mechanizing the proofs.
+            \item<2-> Everyone else: Prove subject reduction for PTSs.
+            \item<3-> Zhaoshen: Write up the extended abstract.
         \end{itemize}
     \end{frame}
 
     \begin{frame}{Obstacles}
         \begin{itemize}
-            \item<1-> Programming in Beluga is \textit{hard}. 
-            \item<2-> Like, really hard. 
+            \item<1-> Programming in Beluga is \textit{hard}. \pause Like, really hard.
+                \pause
+            \item<2-> We need to first understand the proofs for System \textsf{F} and $\lambda\mathbf{P}$.
         \end{itemize}
     \end{frame}
 \end{document}
