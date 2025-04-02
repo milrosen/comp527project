@@ -67,25 +67,27 @@
         \begin{enumerate}
             \item If $M=x$, then $\Gamma(x)=\tau$.
             \item If $M=PQ$, then $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$.
-            \item If $M=\lambda x\,N$ and $x\not\in\dom\Gamma$, then $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$.
+            \item If $M=\lambda x\,N$ and $x\not\in\dom\Gamma$, then $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$ for some types $\tau_1,\tau_2$.
         \end{enumerate}
     \end{lemma}
     \begin{proof}
         Since the root of the derivation tree for $\Gamma\proves M:\tau$ determines the shape of $M$, we see that (1) follows from \textsc{Var} and (2) follows from \textsc{App}. For (3), the child of the root must be obtained from \textsc{Abs} and is of the form $\Gamma,x':\tau_1\proves N':\tau_2$, where $\lambda x\,N=\lambda x'\,N'$. Clearly $\tau=\tau_1\rightarrow\tau_2$. Moreover, note that $N'=N[x'/x]$, so $\Gamma,x':\tau_1\proves N[x'/x]:\tau_2$, and finally substituting $x$ for $x'$ back gives $\Gamma,x:\tau_1\proves N:\tau_2$, as desired.
     \end{proof}
 
-    \begin{lemma}[Change of Context]
+    \begin{lemma}[Change of Context]\label{lem:simply_typed_change_of_context}
         If $\Gamma\proves M:\tau$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\tau$.
     \end{lemma}
     \begin{proof}
-        Induction on $M$. If $M=x$, then $\Gamma'(x)=\Gamma(x)=\tau$ by Lemma \ref{lem:simply_typed_generation} (1), and hence $\Gamma'\proves x:\tau$ by \textsc{Var}. If $M=PQ$, then by Lemma \ref{lem:simply_typed_generation} (2), we have $\Gamma\proves P:\tau\rightarrow\tau$ and $\Gamma\proves Q:\tau$ for some type $\tau$. By induction, we see that $\Gamma'\proves P:\tau\to\tau$ and $\Gamma'\proves Q:\tau$, on which \textsc{App} gives $\Gamma'\proves M:\tau$. Lastly, if $M=\lambda x\,N$, we can choose $x\not\in\dom\Gamma\cup\dom\Gamma'$, so that $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$ by Lemma \ref{lem:simply_typed_generation} (3). By induction, we see that $\Gamma',x:\tau_1\proves N:\tau_2$, on which \textsc{Abs} gives the desired as $\Gamma'\proves M:\tau$.
+        By induction on $M$. If $M=x$, then $\Gamma'(x)=\Gamma(x)=\tau$ by Lemma \ref{lem:simply_typed_generation}.1, and hence $\Gamma'\proves x:\tau$ by \textsc{Var}. If $M=PQ$, then by Lemma \ref{lem:simply_typed_generation}.2, we have $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$. By induction, we see that $\Gamma'\proves P:\sigma\to\tau$ and $\Gamma'\proves Q:\sigma$, on which \textsc{App} gives $\Gamma'\proves M:\tau$. Lastly, if $M=\lambda x\,N$, we can choose $x\not\in\dom\Gamma\cup\dom\Gamma'$, so that $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$ by Lemma \ref{lem:simply_typed_generation}.3. By induction, we see that $\Gamma',x:\tau_1\proves N:\tau_2$, on which \textsc{Abs} gives the desired as $\Gamma'\proves M:\tau$.
     \end{proof}
 
     \begin{lemma}[Substitution Lemma for $\lambda_\rightarrow$]
         If $\Gamma,x:\tau\proves M:\sigma$ and $\Gamma\proves N:\tau$, then $\Gamma\proves M[N/x]:\sigma$.
     \end{lemma}
     \begin{proof}
-        \TODO
+        By induction on $M$. If $M=y$ and $x\neq y$, then $\Gamma(y)=\sigma$ and $M[N/x]=y$, so that $\Gamma\proves y:\sigma$ by \textsc{Var}. If $x=y$, then $\Gamma(x)=\tau$ and $M[N/x]=N$, so $\sigma=\tau$ and $\Gamma\proves N:\tau$ by assumption. If $M=PQ$, then by Lemma \ref{lem:simply_typed_generation}.2, we have $\Gamma,x:\tau\proves P:\rho\rightarrow\sigma$ and $\Gamma,x:\tau\proves Q:\rho$ for some type $\rho$. By induction, we see that $\Gamma\proves P[N/x]:\rho\to\sigma$ and $\Gamma\proves Q[N/x]:\rho$, on which \textsc{App} gives $\Gamma\proves M[N/x]:\sigma$.
+
+        If $M=\lambda y\,M'$ where $y\not\in\dom(\Gamma,x:\tau)$, then by Lemma \ref{lem:simply_typed_generation}.3 we have $\sigma=\sigma_1\rightarrow\sigma_2$ and $\Gamma,x:\tau,y:\sigma_1\proves M':\sigma_2$ for some types $\sigma_1,\sigma_2$. By Lemma \ref{lem:simply_typed_change_of_context}, we can weaken $\Gamma\proves N:\tau$ to $\Gamma,y:\sigma_1\proves N:\tau$, so by induction\footnote{Note that our contexts are unordered, so we have exchange implicitly.} we have $\Gamma,y:\sigma_1\proves M'[N/x]:\sigma_2$, and we can apply \textsc{Abs} to get $\Gamma\proves M[N/x]:\sigma$, as desired.
     \end{proof}
 
     \begin{definition}
