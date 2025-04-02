@@ -5,8 +5,22 @@
 \begin{document}
     \title{Subject Reduction for Pure Type Systems}
     \author{Zhaoshen Zhai}
+    \address{Department of Mathematics and Statistics, McGill University, 805 Sherbrooke Street West, Montreal, QC, H3A 0B9, Canada}
+    \email{zhaoshen.zhai@mail.mcgill.ca}
     \date{\today}
+    \thanks{Notes for a project for \textsc{Comp527: Logic and Computation} taught by Professor Brigitte Pientka, with Charlotte Marchal, Dashiell Rich and Milton Rosenbaum.}
+
+    \begin{abstract}
+        Following \cite{SU06}, we give a detailed proof of \textit{subject reduction} for arbitrary \textit{pure type systems}, which abstract and generalize many of the basic constructs found in, say, the simply-typed $\lambda$-calculus, the polymorphic $\lambda$-calculus (System \textbf{F}), the $\lambda$-calculus of dependent types $\lambda\mathbf{P}$, and much more.
+    \end{abstract}
+
     \maketitle
+
+    \subsection*{Introduction}
+
+    Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and which supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that we can prove it uniformly across many different type systems, which is the goal of this note.
+
+    To this end, we start from the beginning\footnote{As Professor Pientka would say: `We'll start slow'.} with the \textit{simply-typed $\lambda$-calculus} $\lambda_\rightarrow$, in which we prove subject reduction. We then progress to more complicated type systems (in particular, System \textbf{F} and $\lambda\mathbf{P}$) to illustrate some more subtleties and concepts not present in $\lambda_\rightarrow$, and finally define \textit{pure type systems} and prove subject reduction therein. We will not discuss any of these systems in length (or, at all...), but refer the interested reader to \cite{SU06} for general type theory and \cite{Bar91} for the motivation and applications of pure type systems.\\
 
     Throughout, fix a countably infinite set $V$, whose element we call \textit{variables}. For each of the following type systems, there will be a notion of `types' and `terms'. Once they are defined, we can speak of the following:
 
@@ -132,4 +146,10 @@
     \begin{theorem}[Subject Reduction for Pure Type Systems]
         
     \end{theorem}
+
+    \begin{bibdiv}
+        \begin{biblist}*{labels={alphabetic}}
+            \bibselect{bibliography}
+        \end{biblist}
+    \end{bibdiv}
 \end{document}
