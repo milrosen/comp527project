@@ -31,6 +31,10 @@
         \end{equation*}
     \end{definition}
 
+    \begin{notation}
+        We always consider $\lambda$-terms under $\alpha$-conversion. Basically, we can freely change the bound variable $x$ in $\lambda x$ without modifying the term.
+    \end{notation}
+
     \begin{definition}
         We say that a judgement $\Gamma\proves M:\tau$ is \textit{derivable in $\lambda_\rightarrow$} if there is a finite tree of judgements rooted at $\Gamma\proves M:\tau$, whose leaves are instances of \textsc{Var}, and such that the children of each internal node is obtained from the rules \textsc{Abs} or \textsc{App} read bottom-up.
         \begin{equation*}
@@ -44,7 +48,7 @@
         The rules \textsc{Abs} and \textsc{App} can only be applied when $x\not\in\dom\Gamma$.
     \end{definition}
 
-    \begin{lemma}[Generation Lemma for $\lambda_\rightarrow$]
+    \begin{lemma}[Generation Lemma for $\lambda_\rightarrow$]\label{lem:simply_typed_generation}
         Suppose that\footnote{When we assert `$\Gamma\proves M:\tau$', we mean that it is derivable in the current type system under consideration.} $\Gamma\proves M:\tau$.
         \begin{enumerate}
             \item If $M=x$, then $\Gamma(x)=\tau$.
@@ -57,10 +61,10 @@
     \end{proof}
 
     \begin{lemma}[Change of Context]
-        If $\Gamma\proves M:\sigma$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\sigma$.
+        If $\Gamma\proves M:\tau$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\tau$.
     \end{lemma}
     \begin{proof}
-        \TODO
+        Induction on $M$. If $M=x$, then $\Gamma'(x)=\Gamma(x)=\tau$ by Lemma \ref{lem:simply_typed_generation} (1), and hence $\Gamma'\proves x:\tau$ by \textsc{Var}. If $M=PQ$, then by Lemma \ref{lem:simply_typed_generation} (2), we have $\Gamma\proves P:\tau\rightarrow\tau$ and $\Gamma\proves Q:\tau$ for some type $\tau$. By induction, we see that $\Gamma'\proves P:\tau\to\tau$ and $\Gamma'\proves Q:\tau$, on which \textsc{App} gives $\Gamma'\proves M:\tau$. Lastly, if $M=\lambda x\,N$, we can choose $x\not\in\dom\Gamma\cup\dom\Gamma'$, so that $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$ by Lemma \ref{lem:simply_typed_generation} (3). By induction, we see that $\Gamma',x:\tau_1\proves N:\tau_2$, on which \textsc{Abs} gives the desired as $\Gamma'\proves M:\tau$.
     \end{proof}
 
     \begin{lemma}[Substitution Lemma for $\lambda_\rightarrow$]
