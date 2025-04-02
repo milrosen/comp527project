@@ -1,29 +1,91 @@
 \documentclass[reqno]{amsart}
-\input{setup/preamble.sty}
-\input{setup/macros.sty}
+\input{preamble.sty}
+\input{macros.sty}
 
 \begin{document}
-    \title{A general Subject Reduction for Pure Type Systems}
+    \title{Subject Reduction for Pure Type Systems}
     \author{Zhaoshen Zhai}
-    \address{Department of Mathematics and Statistics, McGill University, 805 Sherbrooke Street West, Montreal, QC, H3A 0B9, Canada}
-    \email{zhaoshen.zhai@mail.mcgill.ca}
     \date{\today}
-
     \maketitle
+
+    Throughout, fix a countably infinite set $V$, whose element we call \textit{variables}. For each of the following type systems, there will be a notion of `types' and `terms'. Once they are defined, we can speak of the following:
+
+    \begin{definition*}
+        A \textit{context} is a finite set $\Gamma\coloneqq\l\{x_1:\tau_1,\dots,x_n:\tau_n\r\}$ of pairs $(x_i:\tau_i)$, where each $x_i\in V$ and each $\tau_i$ is a `type'. If $(x:\tau)\in\Gamma$, we write $\Gamma(x)=\tau$, and we let
+        \begin{equation*}
+            \dom\Gamma\coloneqq\l\{x\in V\st(x:\tau)\textrm{ for some }\tau\r\}\ \ \ \ \textrm{and}\ \ \ \ \im\Gamma\coloneqq\l\{\tau\textrm{ type}\st(x:\tau)\in\Gamma\textrm{ for some }x\r\}.
+        \end{equation*}
+        A \textit{judgement} is a triple $\Gamma\proves M:\tau$ consisting of a context $\Gamma$, a term $M$, and a type $\tau$.
+    \end{definition*}
 
     \section{The Simply-typed $\lambda$-calculus}
 
     \begin{definition}
-        
+        A \textit{simple type} is a propositional formula in the language $\rightarrow$.
     \end{definition}
 
-    \begin{lemma}
-        
+    \begin{definition}
+        A \textit{$\lambda$-term} is a string defined by the grammar $M\coloneqq x\,|\,M\,M\,|\,(\lambda x\,M)$. We denote by $\Lambda$ the set of $\lambda$-terms. The set of \textit{free variables} of a $\lambda$-term $M$ is defined inductively by
+        \begin{equation*}
+            FV(x)\coloneqq\l\{x\r\},\ \ \ \ FV(\lambda x\,M)\coloneqq FV(M)\comp\l\{x\r\},\ \ \ \ FV(MN)\coloneqq FV(M)\cup FV(N).
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}
+        We say that a judgement $\Gamma\proves M:\tau$ is \textit{derivable in $\lambda_\rightarrow$} if there is a finite tree of judgements rooted at $\Gamma\proves M:\tau$ whose leaves are instances of \textsc{Var} and such that each parent is obtained from its children using either \textsc{Abs} or \textsc{App}.
+        \begin{equation*}
+            \infer[\mathsc{Var}]{\Gamma,x:\tau\proves x:\tau}{}\ \ \ \ 
+            \infer[\mathsc{Abs}]{\Gamma\proves(\lambda x\,M):\sigma\rightarrow\tau}{\Gamma,x:\sigma\proves M:\tau}\ \ \ \ 
+            \infer[\mathsc{App}]{\Gamma\proves(M\,N):\tau}{
+                \Gamma\proves M:\sigma\rightarrow\tau &
+                \Gamma\proves N:\sigma
+            }
+        \end{equation*}
+        If $\Gamma\proves M:\tau$ is derivable, we say that \textit{$M$ has type $\tau$ in $\Gamma$}.
+    \end{definition}
+
+    \begin{lemma}[Generation Lemma for $\lambda_\rightarrow$]
+        Suppose that $\Gamma\proves M:\tau$.4
+        \begin{enumerate}
+            \item If $M=x$, then $\Gamma(x)=\tau$.
+            \item If $M=PQ$, then $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$.
+            \item If $M=\lambda x\,N$ and $x\not\in\dom\Gamma$, then $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$.
+        \end{enumerate}
     \end{lemma}
+    \begin{proof}
+        
+    \end{proof}
+
+    \begin{lemma}[Change of Context]
+        If $\Gamma\proves M:\sigma$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\sigma$.
+    \end{lemma}
+    \begin{proof}
+        
+    \end{proof}
+
+    \begin{lemma}[Substitution Lemma for $\lambda_\rightarrow$]
+        If $\Gamma,x:\tau\proves M:\sigma$ and $\Gamma\proves N:\tau$, then $\Gamma\proves M[N/x]:\sigma$.
+    \end{lemma}
+    \begin{proof}
+        
+    \end{proof}
+
+    \begin{definition}
+        A relation $\esup$ on $\Lambda$ is \textit{compatible} if for any $M,N\in\Lambda$ with $M\esup N$, we have $MP\esup NP$ and $PM\esup PN$ for each $P\in\Lambda$, and $\lambda x\,M\esup\lambda x\,N$ for each $x\in V$.
+
+        The least compatible relation $\rightarrow_\beta$ on $\Lambda$ such that $(\lambda x\,M)N\rightarrow_\beta M[N/x]$ is called \textit{$\beta$-reduction}.
+    \end{definition}
+
+    \begin{notation}
+        
+    \end{notation}
 
     \begin{theorem}[Subject Reduction for $\lambda_\rightarrow$]
-        
+        If $\Gamma\proves M:\sigma$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N:\sigma$.
     \end{theorem}
+    \begin{proof}
+        
+    \end{proof}
 
     \section{The polymorphic $\lambda$-calculus: System $\mathbf{F}$}
 
