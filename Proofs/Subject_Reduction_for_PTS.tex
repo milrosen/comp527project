@@ -13,9 +13,9 @@
     \begin{definition*}
         A \textit{context} is a finite set $\Gamma\coloneqq\l\{x_1:\tau_1,\dots,x_n:\tau_n\r\}$ of pairs $(x_i:\tau_i)$, where each $x_i\in V$ and each $\tau_i$ is a `type'. If $(x:\tau)\in\Gamma$, we write $\Gamma(x)=\tau$, and we let
         \begin{equation*}
-            \dom\Gamma\coloneqq\l\{x\in V\st(x:\tau)\textrm{ for some }\tau\r\}\ \ \ \ \textrm{and}\ \ \ \ \im\Gamma\coloneqq\l\{\tau\textrm{ type}\st(x:\tau)\in\Gamma\textrm{ for some }x\r\}.
+            \dom\Gamma\coloneqq\l\{x\in V\st(x:\tau)\textrm{ for some `type' }\tau\r\}\ \ \ \ \textrm{and}\ \ \ \ \im\Gamma\coloneqq\l\{\tau\textrm{ `type'}\st(x:\tau)\in\Gamma\textrm{ for some }x\in V\r\}.
         \end{equation*}
-        A \textit{judgement} is a triple $\Gamma\proves M:\tau$ consisting of a context $\Gamma$, a term $M$, and a type $\tau$.
+        A \textit{judgement} is a triple $\Gamma\proves M:\tau$ consisting of a context $\Gamma$, a `term' $M$, and a `type' $\tau$.
     \end{definition*}
 
     \section{The Simply-typed $\lambda$-calculus}
@@ -32,7 +32,7 @@
     \end{definition}
 
     \begin{definition}
-        We say that a judgement $\Gamma\proves M:\tau$ is \textit{derivable in $\lambda_\rightarrow$} if there is a finite tree of judgements rooted at $\Gamma\proves M:\tau$ whose leaves are instances of \textsc{Var} and such that each parent is obtained from its children using either \textsc{Abs} or \textsc{App}.
+        We say that a judgement $\Gamma\proves M:\tau$ is \textit{derivable in $\lambda_\rightarrow$} if there is a finite tree of judgements rooted at $\Gamma\proves M:\tau$, whose leaves are instances of \textsc{Var}, and such that the children of each internal node is obtained from the rules \textsc{Abs} or \textsc{App} read bottom-up.
         \begin{equation*}
             \infer[\mathsc{Var}]{\Gamma,x:\tau\proves x:\tau}{}\ \ \ \ 
             \infer[\mathsc{Abs}]{\Gamma\proves(\lambda x\,M):\sigma\rightarrow\tau}{\Gamma,x:\sigma\proves M:\tau}\ \ \ \ 
@@ -41,11 +41,11 @@
                 \Gamma\proves N:\sigma
             }
         \end{equation*}
-        If $\Gamma\proves M:\tau$ is derivable, we say that \textit{$M$ has type $\tau$ in $\Gamma$}.
+        The rules \textsc{Abs} and \textsc{App} can only be applied when $x\not\in\dom\Gamma$.
     \end{definition}
 
     \begin{lemma}[Generation Lemma for $\lambda_\rightarrow$]
-        Suppose that $\Gamma\proves M:\tau$.4
+        Suppose that\footnote{When we assert `$\Gamma\proves M:\tau$', we mean that it is derivable in the current type system under consideration.} $\Gamma\proves M:\tau$.
         \begin{enumerate}
             \item If $M=x$, then $\Gamma(x)=\tau$.
             \item If $M=PQ$, then $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$.
@@ -53,21 +53,21 @@
         \end{enumerate}
     \end{lemma}
     \begin{proof}
-        
+        Since the root of the derivation tree for $\Gamma\proves M:\tau$ determines the shape of $M$, we see that (1) follows from \textsc{Var} and (2) follows from \textsc{App}. For (3), the child of the root must be obtained from \textsc{Abs} and is of the form $\Gamma,x':\tau_1\proves N':\tau_2$, where $\lambda x\,N=\lambda x'\,N'$. Clearly $\tau=\tau_1\rightarrow\tau_2$. Moreover, note that $N'=N[x'/x]$, so $\Gamma,x':\tau_1\proves N[x'/x]:\tau_2$, and finally substituting $x$ for $x'$ back gives $\Gamma,x:\tau_1\proves N:\tau_2$, as desired.
     \end{proof}
 
     \begin{lemma}[Change of Context]
         If $\Gamma\proves M:\sigma$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\sigma$.
     \end{lemma}
     \begin{proof}
-        
+        \TODO
     \end{proof}
 
     \begin{lemma}[Substitution Lemma for $\lambda_\rightarrow$]
         If $\Gamma,x:\tau\proves M:\sigma$ and $\Gamma\proves N:\tau$, then $\Gamma\proves M[N/x]:\sigma$.
     \end{lemma}
     \begin{proof}
-        
+        \TODO
     \end{proof}
 
     \begin{definition}
@@ -77,14 +77,14 @@
     \end{definition}
 
     \begin{notation}
-        
+        For any relation $\rightarrow_\blob$ on a set $X$, we let $\rightarrow_\blob^+$ denote the transitive closure, let $\rightarrow_\blob^\ast$ denote the transitive and reflexive closure, and let $=_\blob$ denote the least equivalence relation containing $\rightarrow_\blob$.
     \end{notation}
 
     \begin{theorem}[Subject Reduction for $\lambda_\rightarrow$]
         If $\Gamma\proves M:\sigma$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N:\sigma$.
     \end{theorem}
     \begin{proof}
-        
+        \TODO
     \end{proof}
 
     \section{The polymorphic $\lambda$-calculus: System $\mathbf{F}$}
