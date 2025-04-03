@@ -31,9 +31,9 @@
     \end{definition}
 
     \begin{definition}
-        A \textit{$\lambda$-term} is a string defined by the grammar $M\coloneqq x\,|\,M\,M\,|\,(\lambda x\,M)$. We denote by $\Lambda$ the set of $\lambda$-terms. The set of \textit{free variables} of a $\lambda$-term $M$ is defined inductively by
+        A \textit{$\lambda$-term} is a string defined by the grammar\footnote{Sometimes, people write $\lambda x:\tau M$ instead of $\lambda x^\tau M$, but we find the former too hard to parse.} $M\coloneqq x\,|\,M\,M\,|\,(\lambda x^\tau M)$, where $\tau$ is a simple type. We denote by $\Lambda$ the set of $\lambda$-terms. The set of \textit{free variables} of a $\lambda$-term $M$ is defined inductively by
         \begin{equation*}
-            FV(x)\coloneqq\l\{x\r\},\ \ \ \ FV(\lambda x\,M)\coloneqq FV(M)\comp\l\{x\r\},\ \ \ \ FV(MN)\coloneqq FV(M)\cup FV(N).
+            FV(x)\coloneqq\l\{x\r\},\ \ \ \ FV(\lambda x^\tau M)\coloneqq FV(M)\comp\l\{x\r\},\ \ \ \ FV(M\,N)\coloneqq FV(M)\cup FV(N).
         \end{equation*}
     \end{definition}
 
@@ -53,7 +53,7 @@
         We say that a judgement $\Gamma\proves M:\tau$ is \textit{derivable in $\lambda_\rightarrow$} if there is a finite tree of judgements rooted at $\Gamma\proves M:\tau$, whose leaves are instances of \textsc{Var}, and such that the children of each internal node is obtained from the rules \textsc{Abs} or \textsc{App} read bottom-up.
         \begin{equation*}
             \infer[\mathsc{Var}]{\Gamma,x:\tau\proves x:\tau}{}\ \ \ \ 
-            \infer[\mathsc{Abs}]{\Gamma\proves(\lambda x\,M):\sigma\rightarrow\tau}{\Gamma,x:\sigma\proves M:\tau}\ \ \ \ 
+            \infer[\mathsc{Abs}]{\Gamma\proves(\lambda x^\sigma M):\sigma\rightarrow\tau}{\Gamma,x:\sigma\proves M:\tau}\ \ \ \ 
             \infer[\mathsc{App}]{\Gamma\proves(M\,N):\tau}{
                 \Gamma\proves M:\sigma\rightarrow\tau &
                 \Gamma\proves N:\sigma
@@ -66,19 +66,19 @@
         Suppose that\footnote{When we assert `$\Gamma\proves M:\tau$', we mean that it is derivable in the current type system under consideration.} $\Gamma\proves M:\tau$.
         \begin{enumerate}
             \item If $M=x$, then $\Gamma(x)=\tau$.
-            \item If $M=PQ$, then $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$.
-            \item If $M=\lambda x\,N$ and $x\not\in\dom\Gamma$, then $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$ for some types $\tau_1,\tau_2$.
+            \item If $M=P\,Q$, then $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$.
+            \item If $M=\lambda x^\sigma N$ and $x\not\in\dom\Gamma$, then $\tau=\sigma\rightarrow\rho$ and $\Gamma,x:\sigma\proves N:\rho$ for some type $\rho$.
         \end{enumerate}
     \end{lemma}
     \begin{proof}
-        Since the root of the derivation tree for $\Gamma\proves M:\tau$ determines the shape of $M$, we see that (1) follows from \textsc{Var} and (2) follows from \textsc{App}. For (3), the child of the root must be obtained from \textsc{Abs} and is of the form $\Gamma,x':\tau_1\proves N':\tau_2$, where $\lambda x\,N=\lambda x'\,N'$. Clearly $\tau=\tau_1\rightarrow\tau_2$. Moreover, note that $N'=N[x'/x]$, so $\Gamma,x':\tau_1\proves N[x'/x]:\tau_2$, and finally substituting $x$ for $x'$ back gives $\Gamma,x:\tau_1\proves N:\tau_2$, as desired.
+        Since the root of the derivation tree for $\Gamma\proves M:\tau$ determines the shape of $M$, we see that (1) follows from \textsc{Var} and (2) follows from \textsc{App}. For (3), the child of the root must be obtained from \textsc{Abs} and is of the form $\Gamma,y:\sigma\proves N':\rho$, where $\lambda x^\sigma N=\lambda y^\sigma N'$, so clearly $\tau=\sigma\rightarrow\rho$. Moreover, note that $N'=N[y/x]$, so $\Gamma,y:\sigma\proves N[y/x]:\rho$, and finally substituting $x$ for $y$ back gives $\Gamma,x:\sigma\proves N:\rho$, as desired.
     \end{proof}
 
     \begin{lemma}[Change of Context]\label{lem:simply_typed_change_of_context}
         If $\Gamma\proves M:\tau$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\tau$.
     \end{lemma}
     \begin{proof}
-        By induction on $M$. If $M=x$, then $\Gamma'(x)=\Gamma(x)=\tau$ by Lemma \ref{lem:simply_typed_generation}.1, and hence $\Gamma'\proves x:\tau$ by \textsc{Var}. If $M=PQ$, then by Lemma \ref{lem:simply_typed_generation}.2, we have $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$. By induction, we see that $\Gamma'\proves P:\sigma\to\tau$ and $\Gamma'\proves Q:\sigma$, on which \textsc{App} gives $\Gamma'\proves M:\tau$. Lastly, if $M=\lambda x\,N$, we can choose $x\not\in\dom\Gamma\cup\dom\Gamma'$, so that $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\tau_1\proves N:\tau_2$ by Lemma \ref{lem:simply_typed_generation}.3. By induction, we see that $\Gamma',x:\tau_1\proves N:\tau_2$, on which \textsc{Abs} gives the desired as $\Gamma'\proves M:\tau$.
+        By induction on $M$. If $M=x$, then $\Gamma'(x)=\Gamma(x)=\tau$ by Lemma \ref{lem:simply_typed_generation}.1, and hence $\Gamma'\proves x:\tau$ by \textsc{Var}. If $M=P\,Q$, then by Lemma \ref{lem:simply_typed_generation}.2, we have $\Gamma\proves P:\sigma\rightarrow\tau$ and $\Gamma\proves Q:\sigma$ for some type $\sigma$. By induction, we see that $\Gamma'\proves P:\sigma\to\tau$ and $\Gamma'\proves Q:\sigma$, on which \textsc{App} gives $\Gamma'\proves M:\tau$. Lastly, if $M=\lambda x^\sigma N$, we can choose $x\not\in\dom\Gamma\cup\dom\Gamma'$, so that $\tau=\sigma\rightarrow\rho$ and $\Gamma,x:\sigma\proves N:\rho$ by Lemma \ref{lem:simply_typed_generation}.3. By induction, we see that $\Gamma',x:\sigma\proves N:\rho$, on which \textsc{Abs} gives the desired as $\Gamma'\proves M:\tau$.
     \end{proof}
 
     We can think of the Change of Context lemma as a generalizing weakening as we can take $\Gamma'\coloneqq\Gamma,y:\sigma$ for $y\not\in FV(M)$, and this is exactly how we use it below.
@@ -87,17 +87,17 @@
         If $\Gamma,x:\sigma\proves M:\tau$ and $\Gamma\proves N:\sigma$, then $\Gamma\proves M[N/x]:\tau$.
     \end{lemma}
     \begin{proof}
-        By induction on $M$. If $M=y$ and $x\neq y$, then $\Gamma(y)=\tau$ and $M[N/x]=y$, so that $\Gamma\proves y:\tau$ by \textsc{Var}. If $x=y$, then $\Gamma(x)=\sigma$ and $M[N/x]=N$, so $\tau=\sigma$ and $\Gamma\proves N:\sigma$ by assumption. If $M=PQ$, then by Lemma \ref{lem:simply_typed_generation}.2, we have $\Gamma,x:\sigma\proves P:\rho\rightarrow\tau$ and $\Gamma,x:\sigma\proves Q:\rho$ for some type $\rho$. By induction, we see that $\Gamma\proves P[N/x]:\rho\to\tau$ and $\Gamma\proves Q[N/x]:\rho$, on which \textsc{App} gives $\Gamma\proves M[N/x]:\tau$.
+        By induction on $M$. If $M=y$ and $x\neq y$, then $\Gamma(y)=\tau$ and $M[N/x]=y$, so that $\Gamma\proves y:\tau$ by \textsc{Var}. If $x=y$, then $\Gamma(x)=\sigma$ and $M[N/x]=N$, so $\tau=\sigma$ and $\Gamma\proves N:\sigma$ by assumption. If $M=P\,Q$, then by Lemma \ref{lem:simply_typed_generation}.2, we have $\Gamma,x:\sigma\proves P:\rho\rightarrow\tau$ and $\Gamma,x:\sigma\proves Q:\rho$ for some type $\rho$. By induction, we see that $\Gamma\proves P[N/x]:\rho\to\tau$ and $\Gamma\proves Q[N/x]:\rho$, on which \textsc{App} gives $\Gamma\proves M[N/x]:\tau$.
 
-        If $M=\lambda y\,M'$ where $y\not\in\dom\Gamma\cup\l\{x\r\}\cup FV(N)$, then by Lemma \ref{lem:simply_typed_generation}.3, there are types $\tau_1,\tau_2$ such that $\tau=\tau_1\rightarrow\tau_2$ and $\Gamma,x:\sigma,y:\tau_1\proves M':\tau_2$. By Lemma \ref{lem:simply_typed_change_of_context}, we can weaken $\Gamma\proves N:\sigma$ to $\Gamma,y:\tau_1\proves N:\sigma$, so by induction\footnote{Note that our contexts are unordered, so we have exchange implicitly.} we have $\Gamma,y:\tau_1\proves M'[N/x]:\tau_2$, and we can apply \textsc{Abs} to get $\Gamma\proves M[N/x]:\tau$.
+        Lastly, if $M=\lambda y^\eta M'$ where $y\not\in\dom\Gamma\cup\l\{x\r\}\cup FV(N)$, then by Lemma \ref{lem:simply_typed_generation}.3, there is a type $\rho$ such that $\tau=\eta\rightarrow\rho$ and $\Gamma,x:\sigma,y:\eta\proves M':\rho$. By Lemma \ref{lem:simply_typed_change_of_context}, we can weaken $\Gamma\proves N:\sigma$ to $\Gamma,y:\eta\proves N:\sigma$, so by induction\footnote{Note that our contexts are unordered, so we have exchange implicitly.} we have $\Gamma,y:\eta\proves M'[N/x]:\rho$, and we can apply \textsc{Abs} to get $\Gamma\proves M[N/x]:\tau$.
     \end{proof}
 
     \begin{definition}
-        A relation $\esup$ on $\Lambda$ is \textit{compatible} if for any $M,N\in\Lambda$ with $M\esup N$, we have $MP\esup NP$ and $PM\esup PN$ for each $P\in\Lambda$, and $\lambda x\,M\esup\lambda x\,N$ for each $x\in V$.
+        A relation $\esup$ on $\Lambda$ is \textit{compatible} if for any $M,N\in\Lambda$ with $M\esup N$, we have $MP\esup NP$ and $PM\esup PN$ for each $P\in\Lambda$, and $\lambda x^\tau M\esup\lambda x^\tau N$ for each $x\in V$ and type $\tau$.
     \end{definition}
 
     \begin{definition}
-        The least compatible relation $\rightarrow_\beta$ on $\Lambda$ such that $(\lambda x\,M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Lambda$ is called \textit{$\beta$-reduction}. We say that $(\lambda x\,M)N$ is a \textit{$\beta$-redex} and that $M[N/x]$ arises by \textit{contracting} the redex.
+        The least compatible relation $\rightarrow_\beta$ on $\Lambda$ such that $(\lambda x^\tau M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Lambda$ is called \textit{$\beta$-reduction}. We say that $(\lambda x^\tau M)N$ is a \textit{$\beta$-redex} and that $M[N/x]$ arises by \textit{contracting} the redex.
     \end{definition}
 
     \begin{notation}
@@ -108,7 +108,7 @@
         If $\Gamma\proves M:\tau$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N:\tau$.
     \end{theorem}
     \begin{proof}
-        In the case that $M=(\lambda x\,P)Q$ and $N=P[Q/x]$ for $x\not\in\dom\Gamma$, there exist by Lemma \ref{lem:simply_typed_generation}.2 and \ref{lem:simply_typed_generation}.3 a term $\sigma$ such that $\Gamma,x:\sigma\proves P:\tau$ and $\Gamma\proves Q:\sigma$, so $\Gamma\proves N:\tau$ by Lemma \ref{lem:simply_typed_substitution}. The general case follows by induction on $\twoheadrightarrow_\beta$, since the above describes a generic one-step $\beta$-reduction.
+        If $M=(\lambda x^\sigma P)Q$ and $N=P[Q/x]$ for some $x\not\in\dom\Gamma$, then we have $\Gamma,x:\sigma\proves P:\tau$ and $\Gamma\proves Q:\sigma$ by Lemma \ref{lem:simply_typed_generation}.2 and \ref{lem:simply_typed_generation}.3, so $\Gamma\proves N:\tau$ by Lemma \ref{lem:simply_typed_substitution}. The general case follows by induction on $\twoheadrightarrow_\beta$.
     \end{proof}
 
     \section{The polymorphic $\lambda$-calculus: $\lambda2$}
