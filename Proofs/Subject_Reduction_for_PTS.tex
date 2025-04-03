@@ -11,7 +11,7 @@
     \thanks{Notes for a project for \textsc{Comp527: Logic and Computation} taught by Professor Brigitte Pientka, with Charlotte Marchal, Dashiell Rich and Milton Rosenbaum.}
 
     \begin{abstract}
-        Following \cite{SU06}, we give a detailed proof of \textit{subject reduction} for arbitrary \textit{pure type systems}, which abstract and generalize many of the basic constructs found in, say, the simply-typed $\lambda$-calculus, the polymorphic $\lambda$-calculus (System \textbf{F}), the $\lambda$-calculus with dependent types $\lambda\mathbf{P}$, and much more.
+        Following \cite{SU06}, we give a detailed proof of \textit{subject reduction} for arbitrary \textit{pure type systems}, which abstract many of the basic constructs found in, say, the simply-typed $\lambda$-calculus ($\lambda_\rightarrow$), the polymorphic $\lambda$-calculus ($\lambda2$), the $\lambda$-calculus with type constructors ($\lambda\uline{\omega}$), and the $\lambda$-calculus with dependent types ($\lambda\mathbf{P}$).
     \end{abstract}
 
     \maketitle
@@ -20,9 +20,9 @@
 
     Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and which supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that we can prove it uniformly across many different type systems, and this is the goal of the present note.
 
-    To this end, we start from the beginning\footnote{As Professor Pientka would say: `We'll start slow'.} with the \textit{simply-typed $\lambda$-calculus} $\lambda_\rightarrow$, in which we prove subject reduction. We then progress to more complicated type systems (in particular, System \textbf{F} and $\lambda\mathbf{P}$) to illustrate some more subtleties and concepts not present in $\lambda_\rightarrow$, and finally define \textit{pure type systems} and prove subject reduction therein. We will not discuss any of these systems in length (or, at all...), but refer the interested reader to \cite{SU06} for general type theory and \cite{Bar91} for the motivation and applications of pure type systems.
+    To this end, we start from the beginning\footnote{As Professor Pientka would say: `We'll start slow'.} with the \textit{simply-typed $\lambda$-calculus} $\lambda_\rightarrow$, in which we prove subject reduction. We then progress to more complicated type systems (in particular, $\lambda2$, $\lambda\uline{\omega}$, and $\lambda\mathbf{P}$) to illustrate some concepts not present in $\lambda_\rightarrow$, and along the way, we also mention the \textit{$\lambda$-cube} to provide some motivation for \textit{pure type systems}, which abstract the constructs in all of the previous systems. Finally, we prove subject reduction for pure type systems. We will not discuss any of these systems in length, but refer the interested reader to \cite{SU06} for general type theory and \cite{Bar91} for actual applications of pure type systems.
 
-    \section{The Simply-typed $\lambda$-calculus}
+    \section{The Simply-typed $\lambda$-calculus: $\lambda_\rightarrow$}
 
     Throughout, fix a countably infinite set $V$, whose element we call \textit{variables}.
 
@@ -111,7 +111,21 @@
         In the case that $M=(\lambda x\,P)Q$ and $N=P[Q/x]$ for $x\not\in\dom\Gamma$, there exist by Lemma \ref{lem:simply_typed_generation}.2 and \ref{lem:simply_typed_generation}.3 a term $\sigma$ such that $\Gamma,x:\sigma\proves P:\tau$ and $\Gamma\proves Q:\sigma$, so $\Gamma\proves N:\tau$ by Lemma \ref{lem:simply_typed_substitution}. The general case follows by induction on $\twoheadrightarrow_\beta$, since the above describes a generic one-step $\beta$-reduction.
     \end{proof}
 
-    \section{The polymorphic $\lambda$-calculus: System $\mathbf{F}$}
+    \section{The polymorphic $\lambda$-calculus: $\lambda2$}
+
+    \begin{definition}
+        
+    \end{definition}
+
+    \begin{lemma}
+        
+    \end{lemma}
+
+    \begin{theorem}[Subject Reduction for $\mathbf{F}$]
+
+    \end{theorem}
+
+    \section{The $\lambda$-calculus with type constructors: $\lambda\uline{\omega}$}
 
     \begin{definition}
         
