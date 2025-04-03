@@ -80,7 +80,7 @@
         Since the root of the derivation tree for $\Gamma\proves M:\tau$ determines the shape of $M$, we see that (1) follows from \textsc{Var} and (2) follows from \textsc{App}.
     \end{proof}
 
-    \begin{lemma}[Variable Renaming]\label{lem:simply_typed_variable}
+    \begin{lemma}[Variable Substitution]\label{lem:simply_typed_variable}
         If $\Gamma,x:\tau\proves M:\sigma$ and $y\not\in\dom\Gamma\cup\l\{x\r\}$, then $\Gamma,y:\tau\proves M[y/x]:\sigma$.
     \end{lemma}
     \begin{proof}
@@ -158,6 +158,7 @@
         \begin{equation*}
             p[\sigma/p]\coloneqq\sigma,\ \ \ \ q[\sigma/p]\coloneqq q,\ \ \ \ (\tau_1\rightarrow\tau_2)[\sigma/p]\coloneqq\tau_1[\sigma/p]\rightarrow\tau_2[\sigma/p],\ \ \ \ (\fa q\,\tau)[\sigma/p]\coloneqq\fa q\,\tau[\sigma/p].
         \end{equation*}
+        If $\Gamma:V\parto\Phi_2$ is a context, we let $\Gamma[\sigma/p]\coloneqq\l\{(x:\tau[\sigma/p])\st\Gamma(x)=\tau\r\}$.
     \end{definition}
 
     \begin{definition}
@@ -170,13 +171,48 @@
         \end{equation*}
     \end{definition}
 
-    \begin{lemma}
-        
+    \begin{notation}
+        Throughout, we let $x,y,z,\ldots\in V$, $p,q,r,\ldots\in V_t$, $\tau,\sigma,\rho,\ldots\in\Phi_2$, and $M,N,P,\ldots\in\Lambda_2$.
+    \end{notation}
+
+    \begin{lemma}[Variable Substitution]
+        If $\Gamma\proves M:\tau$, then $\Gamma[\sigma/p]\proves M[\sigma/p]:\tau[\sigma/p]$.
     \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
-    \begin{theorem}[Subject Reduction for $\lambda2$]
+    \begin{lemma}[Generation Lemma]
+        If $\Gamma\proves\Lambda p\,M:\tau$ and $p\not\in FV(\ran\Gamma)$, then $\tau=\fa p\,\sigma$ and $\Gamma\proves M:\sigma$.
+    \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
+    \begin{lemma}[Change of Context]
+        If $\Gamma\proves M:\tau$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\tau$.
+    \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
+
+    \begin{lemma}[Substitution Lemma]
+        If $\Gamma,x:\sigma\proves M:\tau$ and $\Gamma\proves N:\sigma$, then $\Gamma\proves M[N/x]:\tau$.
+    \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
+
+    \begin{definition}
+        The least compatible relation $\rightarrow_\beta$ on $\Lambda_2$ such that $(\lambda x^\tau M)N\rightarrow_\beta M[N/x]$ and $(\Lambda p\,M)\tau\rightarrow_\beta M[\tau/p]$ is called \textit{$\beta$-reduction}. The same terminology applies.
+    \end{definition}
+
+    \begin{theorem}[Subject Reduction]
+        If $\Gamma\proves M:\tau$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N:\tau$.
     \end{theorem}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
     \section{The $\lambda$-calculus with type constructors: $\lambda\uline{\omega}$}
 
@@ -188,7 +224,7 @@
         
     \end{lemma}
 
-    \begin{theorem}[Subject Reduction for $\lambda\uline{\omega}$]
+    \begin{theorem}[Subject Reduction]
 
     \end{theorem}
 
@@ -202,7 +238,7 @@
         
     \end{lemma}
 
-    \begin{theorem}[Subject Reduction for $\lambda\mathbf{P}$]
+    \begin{theorem}[Subject Reduction]
 
     \end{theorem}
 
@@ -216,7 +252,7 @@
         
     \end{lemma}
 
-    \begin{theorem}[Subject Reduction for Pure Type Systems]
+    \begin{theorem}[Subject Reduction]
         
     \end{theorem}
 
