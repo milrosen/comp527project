@@ -44,7 +44,7 @@
     \begin{definition}
         Let $M,N\in\Lambda$ and fix $x\in FV(M)$. The \textit{substitution} of $N$ for $x$ in $M$, written $M[N/x]$, is is the $\lambda$-term defined by induction on $M$; below, $y\neq x$ and $y\not\in FV(N)$.
         \begin{equation*}
-            x[N/x]\coloneqq N,\ \ \ \ y[N/x]\coloneqq y,\ \ \ \ (P\,Q)[N/x]\coloneqq P[N/x]\,Q[N/x],\ \ \ \ (\lambda y^\tau P)[N/x]\coloneqq\lambda y^\tau(P[N/x]).
+            x[N/x]\coloneqq N,\ \ \ \ y[N/x]\coloneqq y,\ \ \ \ (P\,Q)[N/x]\coloneqq P[N/x]\,Q[N/x],\ \ \ \ (\lambda y^\tau P)[N/x]\coloneqq\lambda y^\tau.P[N/x].
         \end{equation*}
     \end{definition}
 
@@ -84,16 +84,18 @@
         If $\Gamma,x:\tau\proves M:\sigma$ and $y\not\in\dom\Gamma\cup\l\{x\r\}$, then $\Gamma,y:\tau\proves M[y/x]:\sigma$.
     \end{lemma}
     \begin{proof}
-        By induction on $M$. If $M=x$, then $\tau=\sigma$ and $M[y/x]=y$, and $\Gamma,y:\tau\proves y:\sigma$ by \textsc{Var}. If $M=z$ and $z\neq x$, then $M[y/x]=z$. Note that $\Gamma(z)=\sigma$ by Lemma \ref{lem:simply_typed_generation_1}, so $\Gamma,y:\tau\proves z:\sigma$ by \textsc{Var}.
+        By induction on the length of $M$. If $M=x$, then $\tau=\sigma$ and $M[y/x]=y$, and $\Gamma,y:\tau\proves y:\sigma$ by \textsc{Var}. If $M=z$ and $z\neq x$, then $M[y/x]=z$. Note that $\Gamma(z)=\sigma$ by Lemma \ref{lem:simply_typed_generation_1}.1, so $\Gamma,y:\tau\proves z:\sigma$ by \textsc{Var}.
 
-        If $M=P\,Q$, 
+        If $M=P\,Q$, then by Lemma \ref{lem:simply_typed_generation_1}.2, we have $\Gamma,x:\tau\proves P:\rho\rightarrow\sigma$ and $\Gamma,x:\tau\proves Q:\rho$ for some $\rho\in\Phi_\rightarrow$. By induction, we have $\Gamma,y:\tau\proves P[y/x]:\rho\rightarrow\sigma$ and $\Gamma,y:\tau\proves Q[y/x]:\rho$, on which \textsc{App} gives the desired.
+
+        If $M=\lambda z^\rho N$, then $\Gamma,x:\tau\proves\lambda z^\rho N:\sigma$ is obtained by \textsc{Abs}, so it is of the form $\Gamma,x:\tau,w:\rho\proves P:\eta$ for some $\eta\in\Phi_\rightarrow$ and $w,P\in\Lambda$ such that $\lambda z^\rho N=\lambda w^\rho P$ and $\sigma=\rho\to\eta$. Up to $\alpha$-conversion, we can choose $w$ so that $w\neq y$. Then, since $|P|=|N|<|M|$, we have by induction that $\Gamma,y:\tau,w:\rho\proves P[y/x]:\eta$, on which \textsc{Abs} gives $\Gamma,y:\tau\proves\lambda w^\rho.P[y/x]:\sigma$. Now, $\lambda w^\rho.P[y/x]=(\lambda w^\rho P)[y/x]=(\lambda z^\rho N)[y/x]=M[y/x]$.
     \end{proof}
 
     \begin{lemma}[Generation Lemma 2]\label{lem:simply_typed_generation_2}
-        If $\Gamma\proves\lambda x^\sigma M:\tau$ and $x\not\in\dom\Gamma$, then $\tau=\sigma\rightarrow\rho$ and $\gamma,x:\sigma\proves N:\rho$ for some $\rho\in\Phi_\rightarrow$.
+        If $\Gamma\proves\lambda x^\sigma M:\tau$ and $x\not\in\dom\Gamma$, then $\tau=\sigma\rightarrow\rho$ and $\Gamma,x:\sigma\proves N:\rho$ for some $\rho\in\Phi_\rightarrow$.
     \end{lemma}
     \begin{proof}
-        The child of $\Gamma\proves\lambda x^\sigma M:\tau$ must be obtained from \textsc{Abs}, and thus is of the form $\Gamma,y:\sigma\proves N:\rho$ for some $\rho\in\Phi_\rightarrow$, and $\lambda x^\sigma M=\lambda y^\sigma N$ and $\tau=\sigma\rightarrow\rho$. In particular, we have $N=M[y/x]$, so $\Gamma,y:\sigma\proves M[y/x]:\rho$, and finally substituting $x$ for $y$ gives $\Gamma,x:\sigma\proves M:\rho$ by Lemma \ref{lem:simply_typed_variable}, as desired.
+        As in the above proof, there exist $\rho\in\Phi_\rightarrow$ and $y,N\in\Lambda$ such that $\Gamma,y:\sigma\proves N:\rho$, $\lambda x^\sigma M=\lambda y^\sigma N$, and $\tau=\sigma\rightarrow\rho$. If $x=y$, we are done; otherwise, we have $N=M[y/x]$, so $\Gamma,y:\sigma\proves M[y/x]:\rho$, and finally substituting $x$ for $y$ gives $\Gamma,x:\sigma\proves M:\rho$ by Lemma \ref{lem:simply_typed_variable}, as desired.
     \end{proof}
 
     \begin{lemma}[Change of Context]\label{lem:simply_typed_change_of_context}
