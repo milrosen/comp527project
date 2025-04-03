@@ -27,7 +27,7 @@
     Throughout, fix a countably infinite set $V$, whose element we call \textit{(propositional/$\lambda$-)variables}.
 
     \begin{definition}
-        A \textit{simple type} is a formula in the language $\l\{\rightarrow\r\}$. We let $\Phi_\rightarrow$ denote the set of simple types.
+        A \textit{simple type} is a propositional formula in the language $\l\{\rightarrow\r\}$; i.e., defined by the grammar $\tau\coloneqq x\,|\,\tau\rightarrow\tau$ where $x\in V$. We let $\Phi_\rightarrow$ denote the set of simple types.
     \end{definition}
 
     \begin{definition}
@@ -137,8 +137,37 @@
 
     \section{The polymorphic $\lambda$-calculus: $\lambda2$}
 
+    Throughout, fix two disjoint countable sets $V$ and $V_t$ of variables and \textit{type-variables}.
+
     \begin{definition}
-        
+        A \textit{polymorphic type} is a propositional formula in the language $\l\{\rightarrow,\fa\r\}$ over $V_\tau$, i.e., defined by the grammar $\tau\coloneqq x\,|\,\tau\rightarrow\tau\,|\,\fa p\,\tau$ where $x\in V$ and $p\in V_t$. Let $\Phi_2$ denote the set of polymorphic types.
+    \end{definition}
+
+    \begin{definition}
+        A \textit{polymorphic term} is either a $\lambda$-term, a \textit{polymorphic abstraction} $\Lambda p\,M$ for $p\in V_t$, or a \textit{type application} $M\,\tau$ for $\tau\in\Phi_2$. That is, $M\coloneqq x\,|\,M\,M\,|\,\lambda x^\tau M\,|\,\Lambda p\,M\,|\,M\,\tau$ where $\tau\in\Phi_2$ and $p\in V_t$. We denote by $\Lambda_2$ the set of all polymorphic terms. The set of \textit{free variables} of a polymorphic term $M$ and a polymorphic type $\tau$ is defined inductively by extending $FV$ from before, and letting
+        \begin{equation*}
+            \begin{gathered}
+                FV(\Lambda p\,M)\coloneqq FV(M)\comp\l\{p\r\},\ \ \ \ FV(M\,\tau)\coloneqq FV(M)\cup FV(\tau) \\
+                FV(\tau\rightarrow\sigma)\coloneqq FV(\tau)\cup FV(\sigma),\ \ \ \ FV(\fa p\,\tau)\coloneqq FV(\tau)-\l\{p\r\}.
+            \end{gathered}
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}
+        Let $\tau,\sigma\in\Phi_2$ and fix $p\in FV(\tau)$. The \textit{substitution} of $\sigma$ for $p$ in $\tau$, written $\tau[\sigma/p]$, is the polymorphic type defined by induction on $\tau$; below, $q\neq p$ and $q\not\in FV(\sigma)$.
+        \begin{equation*}
+            p[\sigma/p]\coloneqq\sigma,\ \ \ \ q[\sigma/p]\coloneqq q,\ \ \ \ (\tau_1\rightarrow\tau_2)[\sigma/p]\coloneqq\tau_1[\sigma/p]\rightarrow\tau_2[\sigma/p],\ \ \ \ (\fa q\,\tau)[\sigma/p]\coloneqq\fa q\,\tau[\sigma/p].
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}
+        For $M,N\in\Lambda_2$ and $x\in FV(M)$, we extend the substitution $M[N/x]$ by letting $(\Lambda p\,M)[N/x]\coloneqq\Lambda p\,M[N/x]$ for $p\not\in FV(N)$ and $(M\,\tau)[N/x]\coloneqq M[N/x]\,\tau$. For $p\in FV(M)$ and $\sigma\in\Phi_2$, we define the \textit{substitution} of $\sigma$ for $p$ in $M$, written $M[\sigma/p]$, as the polymorphic term below, where $q\not\in FV(\sigma)\cup\l\{p\r\}$.
+        \begin{equation*}
+            \begin{gathered}
+                x[\sigma/p]\coloneqq x,\ \ \ \ (P\,Q)[\sigma/p]\coloneqq P[\sigma/p]\,Q[\sigma/p],\ \ \ \ (\lambda x^\tau M)[\sigma/p]\coloneqq\lambda x^{\tau[\sigma/p]}.M[\sigma/p],\\
+                (M\,\tau)[\sigma/p]\coloneqq M[\sigma/p]\,\tau[\sigma/p],\ \ \ \ (\Lambda q\,M)[\sigma/p]\coloneqq\Lambda q\,M[\sigma/p].
+            \end{gathered}
+        \end{equation*}
     \end{definition}
 
     \begin{lemma}
