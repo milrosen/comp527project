@@ -80,7 +80,7 @@
         Since the root of the derivation tree for $\Gamma\proves M:\tau$ determines the shape of $M$, we see that (1) follows from \textsc{Var} and (2) follows from \textsc{App}.
     \end{proof}
 
-    \begin{lemma}[Variable Substitution]\label{lem:simply_typed_variable}
+    \begin{lemma}[Variable Substitution]\label{lem:simply_typed_variable_substitution}
         If $\Gamma,x:\tau\proves M:\sigma$ and $y\not\in\dom\Gamma\cup\l\{x\r\}$, then $\Gamma,y:\tau\proves M[y/x]:\sigma$.
     \end{lemma}
     \begin{proof}
@@ -95,7 +95,7 @@
         If $\Gamma\proves\lambda x^\sigma M:\tau$ and $x\not\in\dom\Gamma$, then $\tau=\sigma\rightarrow\rho$ and $\Gamma,x:\sigma\proves N:\rho$ for some $\rho\in\Phi_\rightarrow$.
     \end{lemma}
     \begin{proof}
-        As in the above proof, there exist $\rho\in\Phi_\rightarrow$ and $y,N\in\Lambda$ such that $\Gamma,y:\sigma\proves N:\rho$, $\lambda x^\sigma M=\lambda y^\sigma N$, and $\tau=\sigma\rightarrow\rho$. If $x=y$, we are done; otherwise, we have $N=M[y/x]$, so $\Gamma,y:\sigma\proves M[y/x]:\rho$, and finally substituting $x$ for $y$ gives $\Gamma,x:\sigma\proves M:\rho$ by Lemma \ref{lem:simply_typed_variable}, as desired.
+        As in the above proof, there exist $\rho\in\Phi_\rightarrow$ and $y,N\in\Lambda$ such that $\Gamma,y:\sigma\proves N:\rho$, $\lambda x^\sigma M=\lambda y^\sigma N$, and $\tau=\sigma\rightarrow\rho$. If $x=y$, we are done; otherwise, we have $N=M[y/x]$, so $\Gamma,y:\sigma\proves M[y/x]:\rho$, and finally substituting $x$ for $y$ gives $\Gamma,x:\sigma\proves M:\rho$ by Lemma \ref{lem:simply_typed_variable_substitution}, as desired.
     \end{proof}
 
     \begin{lemma}[Change of Context]\label{lem:simply_typed_change_of_context}
@@ -128,7 +128,7 @@
         For any relation $\rightarrow_\blob$ on a set $X$, we let $\twoheadrightarrow_\blob^+$ denote the transitive closure, let $\twoheadrightarrow_\blob$ denote the transitive and reflexive closure, and let $=_\blob$ denote the least equivalence relation containing $\twoheadrightarrow_\blob$.
     \end{notation}
 
-    \begin{theorem}[Subject Reduction]
+    \begin{theorem}[Subject Reduction]\label{thm:simply_typed_subject_reduction}
         If $\Gamma\proves M:\tau$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N:\tau$.
     \end{theorem}
     \begin{proof}
@@ -140,7 +140,7 @@
     Throughout, fix two disjoint countable sets $V$ and $V_t$ of variables and \textit{type-variables}.
 
     \begin{definition}
-        A \textit{polymorphic type} is a propositional formula in the language $\l\{\rightarrow,\fa\r\}$ over $V_\tau$, i.e., defined by the grammar $\tau\coloneqq x\,|\,\tau\rightarrow\tau\,|\,\fa p\,\tau$ where $x\in V$ and $p\in V_t$. Let $\Phi_2$ denote the set of polymorphic types.
+        A \textit{polymorphic type} is a propositional formula in the language $\l\{\rightarrow,\fa\r\}$ over $V_\tau$, i.e., defined by the grammar $\tau\coloneqq p\,|\,\tau\rightarrow\tau\,|\,\fa p\,\tau$ where $p\in V_t$. Let $\Phi_2$ denote the set of polymorphic types.
     \end{definition}
 
     \begin{definition}
@@ -148,7 +148,7 @@
         \begin{equation*}
             \begin{gathered}
                 FV(\Lambda p\,M)\coloneqq FV(M)\comp\l\{p\r\},\ \ \ \ FV(M\,\tau)\coloneqq FV(M)\cup FV(\tau) \\
-                FV(\tau\rightarrow\sigma)\coloneqq FV(\tau)\cup FV(\sigma),\ \ \ \ FV(\fa p\,\tau)\coloneqq FV(\tau)-\l\{p\r\}.
+                FV(p)\coloneqq\l\{p\r\},\ \ \ \ FV(\tau\rightarrow\sigma)\coloneqq FV(\tau)\cup FV(\sigma),\ \ \ \ FV(\fa p\,\tau)\coloneqq FV(\tau)-\l\{p\r\}.
             \end{gathered}
         \end{equation*}
     \end{definition}
@@ -158,7 +158,7 @@
         \begin{equation*}
             p[\sigma/p]\coloneqq\sigma,\ \ \ \ q[\sigma/p]\coloneqq q,\ \ \ \ (\tau_1\rightarrow\tau_2)[\sigma/p]\coloneqq\tau_1[\sigma/p]\rightarrow\tau_2[\sigma/p],\ \ \ \ (\fa q\,\tau)[\sigma/p]\coloneqq\fa q\,\tau[\sigma/p].
         \end{equation*}
-        If $\Gamma:V\parto\Phi_2$ is a context, we let $\Gamma[\sigma/p]\coloneqq\l\{(x:\tau[\sigma/p])\st\Gamma(x)=\tau\r\}$.
+        If $\Gamma:V\parto\Phi_2$ is a context, we let $(\Gamma[\sigma/p])(x)\coloneqq\Gamma(x)[\sigma/p]$.
     \end{definition}
 
     \begin{definition}
@@ -171,47 +171,50 @@
         \end{equation*}
     \end{definition}
 
+    \begin{definition}
+        A judgement $\Gamma:M:\tau$ is \textit{derivable in $\lambda2$} if it is derivable in $\lambda_\rightarrow$ with the additional rules:
+        \begin{equation*}
+            \infer[\mathsc{Gen}]{\Gamma\proves\Lambda p\,M:\fa p\,\tau}{\Gamma\proves M:\tau}\ \ \ \ 
+            \infer[\mathsc{Inst}]{\Gamma\proves M\,\tau:\sigma[\tau/p]}{\Gamma\proves M:\fa p\,\sigma}
+        \end{equation*}
+        The \textsc{Gen} rule can only be applied if $p\not\in FV(\Gamma)$.
+    \end{definition}
+
+    A moments thought reveals that all results in the previous section apply here, with the only change that:
+
     \begin{notation}
         Throughout, we let $x,y,z,\ldots\in V$, $p,q,r,\ldots\in V_t$, $\tau,\sigma,\rho,\ldots\in\Phi_2$, and $M,N,P,\ldots\in\Lambda_2$.
     \end{notation}
 
-    \begin{lemma}[Variable Substitution]
+    \begin{lemma}[Variable Substitution]\label{lem:polymorphic_variable_substitution}
         If $\Gamma\proves M:\tau$, then $\Gamma[\sigma/p]\proves M[\sigma/p]:\tau[\sigma/p]$.
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
 
-    \begin{lemma}[Generation Lemma]
+    \begin{lemma}[Generation Lemma 1]\label{lem:polymorphic_generation_1}
+        If $\Gamma\proves M\,\tau:\sigma$, then $\sigma=\rho[\tau/p]$ and $\Gamma\proves M:\fa p\,\rho$.
+    \end{lemma}
+
+    \begin{lemma}[Generation Lemma 2]\label{lem:polymorphic_generation_2}
         If $\Gamma\proves\Lambda p\,M:\tau$ and $p\not\in FV(\ran\Gamma)$, then $\tau=\fa p\,\sigma$ and $\Gamma\proves M:\sigma$.
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
 
-    \begin{lemma}[Change of Context]
+    \begin{lemma}[Change of Context]\label{lem:polymorphic_change_of_context}
         If $\Gamma\proves M:\tau$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\tau$.
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
 
-    \begin{lemma}[Substitution Lemma]
+    \begin{lemma}[Substitution Lemma]\label{lem:polymorphic_substitution}
         If $\Gamma,x:\sigma\proves M:\tau$ and $\Gamma\proves N:\sigma$, then $\Gamma\proves M[N/x]:\tau$.
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
 
     \begin{definition}
         The least compatible relation $\rightarrow_\beta$ on $\Lambda_2$ such that $(\lambda x^\tau M)N\rightarrow_\beta M[N/x]$ and $(\Lambda p\,M)\tau\rightarrow_\beta M[\tau/p]$ is called \textit{$\beta$-reduction}. The same terminology applies.
     \end{definition}
 
-    \begin{theorem}[Subject Reduction]
+    \begin{theorem}[Subject Reduction]\label{thm:polymorphic_subject_reduction}
         If $\Gamma\proves M:\tau$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N:\tau$.
     \end{theorem}
     \begin{proof}
-        \TODO
+        By Theorem \ref{thm:simply_typed_subject_reduction}, it suffices to prove it for when $M=(\Lambda p\,P)\sigma$ and $N=P[\sigma/p]$. Assuming without loss of generality that $p\not\in FV(\ran\Gamma)$, we have by Lemmas \ref{lem:polymorphic_generation_1} and \ref{lem:polymorphic_generation_2} that $\tau=\rho[\sigma/p]$ and $\Gamma\proves P:\rho$ for some $\rho$, whence $\Gamma[\sigma/p]\proves N:\tau$ by Lemma \ref{lem:polymorphic_variable_substitution}. But note that $(\Gamma[\sigma/p])(x)=\Gamma(x)[\sigma/p]=\Gamma(x)$ since $p\not\in FV(\ran\Gamma)$, so the result follows from Lemma \ref{lem:polymorphic_change_of_context}. \TODO[someone check this please]
     \end{proof}
 
     \section{The $\lambda$-calculus with type constructors: $\lambda\uline{\omega}$}
