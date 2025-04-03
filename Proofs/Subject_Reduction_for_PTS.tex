@@ -189,22 +189,37 @@
     \begin{lemma}[Variable Substitution]\label{lem:polymorphic_variable_substitution}
         If $\Gamma\proves M:\tau$, then $\Gamma[\sigma/p]\proves M[\sigma/p]:\tau[\sigma/p]$.
     \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
     \begin{lemma}[Generation Lemma 1]\label{lem:polymorphic_generation_1}
         If $\Gamma\proves M\,\tau:\sigma$, then $\sigma=\rho[\tau/p]$ and $\Gamma\proves M:\fa p\,\rho$.
     \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
     \begin{lemma}[Generation Lemma 2]\label{lem:polymorphic_generation_2}
         If $\Gamma\proves\Lambda p\,M:\tau$ and $p\not\in FV(\ran\Gamma)$, then $\tau=\fa p\,\sigma$ and $\Gamma\proves M:\sigma$.
     \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
     \begin{lemma}[Change of Context]\label{lem:polymorphic_change_of_context}
         If $\Gamma\proves M:\tau$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M:\tau$.
     \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
     \begin{lemma}[Substitution Lemma]\label{lem:polymorphic_substitution}
         If $\Gamma,x:\sigma\proves M:\tau$ and $\Gamma\proves N:\sigma$, then $\Gamma\proves M[N/x]:\tau$.
     \end{lemma}
+    \begin{proof}
+        \TODO
+    \end{proof}
 
     \begin{definition}
         The least compatible relation $\rightarrow_\beta$ on $\Lambda_2$ such that $(\lambda x^\tau M)N\rightarrow_\beta M[N/x]$ and $(\Lambda p\,M)\tau\rightarrow_\beta M[\tau/p]$ is called \textit{$\beta$-reduction}. The same terminology applies.
