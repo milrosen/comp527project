@@ -1,4 +1,3 @@
-# Pure Type Systems
+# Subject Reduction for Pure Type Systems
 
-COMP 527 project for _ _ _ and Milton Rosenbaum
-
+COMP 527 (Logic and Computation) project on _Pure Type systems_ by Charlotte Marchal, Dashiell Rich, Milton Rosenbaum, and Zhaoshen Zhai.

@@ -1,0 +1,41 @@
+\usepackage[T1]{fontenc}
+\usepackage{amsfonts, amsmath, amssymb, amsthm, amsrefs}
+\usepackage{tikz, tikz-3dplot, tikzpagenodes}
+\usepackage{graphicx, xcolor, geometry, mdframed, titlesec}
+\usepackage{enumitem, nicematrix}
+\usepackage{mathtools, mathrsfs}
+\usepackage{caption, subcaption}
+\usepackage{bookmark, xifthen}
+\usepackage{algorithm2e, proof, ulem}
+
+\usetikzlibrary{matrix, positioning, patterns, decorations.markings, arrows, arrows.meta, backgrounds, math, cd, automata, graphs}
+\tikzset{->-/.style={decoration={ markings, mark=at position #1 with {\arrow{>}}},postaction={decorate}}}
+\LinesNumbered\RestyleAlgo{ruled}
+
+\definecolor{darkBlue}{RGB}{0, 0, 138}
+\definecolor{darkGreen}{RGB}{0, 160, 0}
+\definecolor{lightGray}{rgb}{0.9, 0.9, 0.9}
+
+\hypersetup{colorlinks=true, allcolors=darkBlue}
+\newgeometry{margin = 1in}
+
+\newtheorem{mainTheorem}{Theorem}\renewcommand{\themainTheorem}{\Alph{mainTheorem}}
+\newtheorem{theorem}{Theorem}[section]\newtheorem*{theorem*}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}\newtheorem*{proposition*}{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}\newtheorem*{lemma*}{Lemma}
+\newtheorem{claim}[theorem]{Claim}\newtheorem*{claim*}{Claim}
+\newtheorem{corollary}[theorem]{Corollary}\newtheorem*{corollary*}{Corollary}
+
+\theoremstyle{definition}{
+    \newtheorem{example}[theorem]{Example}\newtheorem*{example*}{Example}
+    \newtheorem{definition}[theorem]{Definition}\newtheorem*{definition*}{Definition}
+    \newtheorem{remark}[theorem]{Remark}\newtheorem*{remark*}{Remark}
+    \newtheorem{notation}[theorem]{Notation}\newtheorem*{notation*}{Notation}
+    \newtheorem{observation}[theorem]{Observation}\newtheorem*{observation*}{Observation}
+    \newtheorem{axiom}[theorem]{Axiom}\newtheorem*{axiom*}{Axiom}
+    \newtheorem{question}[theorem]{Question}\newtheorem*{question*}{Question}
+}
+
+\titleformat{name=\section}{}{\thetitle.}{0.8em}{\centering\scshape}
+\titleformat{name=\subsection}[runin]{}{\thetitle.}{0.5em}{\bfseries}[.]
+\titleformat{name=\subsubsection}[runin]{}{\thetitle.}{0.5em}{\itshape}[.]
