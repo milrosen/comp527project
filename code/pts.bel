@@ -9,6 +9,9 @@ LF axioms : s → s → type =
 
 LF rules : s → s → s → type =
     | rule : rules star star star
+    | F_   : rules box  star star
+    | ω_   : rules box  box box
+    | P_   : rules star box box
 ;
 
 LF o : type =
@@ -20,17 +23,44 @@ LF o : type =
 
 LF pts : o → o → type =
     | axiom : axioms s1 s2 → pts (const s1) (const s2)
-    | start : pts A (const s1) → pts x A
+    % | start : pts A (const s1) → pts x A
     | ΠE : pts F (pi A B) → pts a A → 
         pts (app F a) (B a)
-    | ΠI : rules s1 s2 s3 → pts A (const s1) → (pts x A → pts (B x) (const s2)) →
-        pts (pi A B) (const s3)
-    | λI : rules s1 s2 s3 → pts A (const s1) → (pts x A → pts (b x) (B x)) → (pts x A → pts (B x) (const s2)) →
-        pts (lam A b) (pi A B)
-;
 
+    | ΠI : rules s1 s2 s3 → 
+        pts A (const s1) → ({x : o} pts x A → pts (B x) (const s2)) →
+        % ---
+        pts (pi A B) (const s3)
+
+    | λI : rules s1 s2 s3 → 
+        pts A (const s1) → ({x : o} pts x A → pts (m x) (B x)) →  ({x : o} pts x A → pts (B x) (const s2)) →
+        % ---
+        pts (lam A m) (pi A B)
+;
 
 schema ctx = some [A:o, S:s, P : pts A (const S)] block (x:o, d : pts x A);
 
-rec check : [A:o, D:pts A (const star) ⊢ pts (lam A \x.x) (pi A \x.A)] = 
-[A:o, D:pts A (const star) ⊢ λI rule D (\x. start D) (\x. D)] ;
+rec imp : [A:o, D:pts A (const star) ⊢ pts (lam A \x.x) (pi A \x.A)] = 
+[A:o, D:pts A (const star) ⊢ λI rule D (\x.\d. d) (\x.\d. D)] ;
+
+
+
+%                -------------    --------------------    -------------   --------------------
+%                A : * ⊢ A : *    A : *, a : A ⊢ a : A    A : * ⊢ A : *   A : *, a : A ⊢ A : *
+% ----------     -------------------------------------    ------------------------------------
+%  ⊢ * : Box     A : * ⊢ λa : A . a : Π_ : A . A          A : * ⊢ Π_ : A . A : *  
+% ------------------------------------------------------------------------------
+%        ⊢ λA *. λa A. a : ΠA * . Π_ : A . A
+
+rec alpha : [ ⊢ pts (lam (const star) \x. (lam x \y.y)) (pi (const star) \x. (pi x \y.x))] = 
+[ ⊢ λI F_ (axiom axi) 
+          (\x.\D. λI rule D (\x.\d.d) (\x.\d.D)) 
+          (\x.\D. ΠI rule D (\x.\d.D))] ;
+
+rec cons : [ ⊢ pts (lam (const star) \x. (pi x \y.x)) (pi (const star) \x. (const star))] =
+[ ⊢ λI ω_ (axiom axi)
+          (\x.\D. ΠI rule D (\x.\d.D))
+          (\x.\D. axiom axi)] ;
+
+rec pred : [A:o, D1:pts A (const star), P:o, D2:pts P (pi A (\x. (const star))) 
+⊢ pts (lam A (\a. pi (P a) (\y. pi (const star) (\y.y))))]
