@@ -147,7 +147,7 @@
     In summary, the \textit{simply-typed $\lambda$-calculus}, denoted $\lambda_\rightarrow$, consists of the following data:
     \begin{enumerate}
         \item A set $T\coloneqq V_t\,|\,T\rightarrow T$ of \textit{$\lambda$-types} and a set $\Phi\coloneqq V_p\,|\,\Phi\,\Phi\,|\,\lambda V_p\!:\!T.\Phi$ of \textit{$\lambda$-terms}.
-        \item A \textit{$\beta$-reduction rule} $\rightarrow_\beta$ on $\Phi$ compatibly extending $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Phi$.
+        \item A \textit{$\beta$-reduction} rule $\rightarrow_\beta$ on $\Phi$ compatibly extending $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Phi$.
         \item A \textit{type assignment} relation $\Gamma\proves M\!:\!\tau$ defined by \textsc{Init}, \textsc{App}, and \textsc{Abs}.
     \end{enumerate}
     All other $\lambda$-calculi considered here will follow a similar specification, so we will be briefer in what follows.
@@ -202,17 +202,47 @@
         By Theorem \ref{thm:simply_typed_subject_reduction} (and Lemma \ref{lem:polymorphic_substitution}), it suffices to prove it for when $M=(\Lambda p.P)\sigma$ and $N=P[\sigma/p]$ for some $P\in\Phi$ and $\sigma\in T$. After an $\alpha$-conversion, we can assume without loss of generality that $p\not\in FV(\ran\Gamma)$, so by Lemma \ref{lem:polymorphic_generation}, we have $\tau=\rho[\sigma/p]$ and $\Gamma\proves P\!:\!\rho$ for some $\rho\in T$, and hence $\Gamma[\sigma/p]\proves N\!:\!\tau$ by Lemma \ref{lem:polymorphic_variable_substitution}. But $(\Gamma[\sigma/p])(x)=\Gamma(x)[\sigma/p]=\Gamma(x)$ since $p\not\in FV(\ran\Gamma)$, so the result follows from Lemma \ref{lem:polymorphic_change_of_context}.
     \end{proof}
 
-    \TODO[someone check this please]
-
     \section{The $\lambda$-calculus with type constructors: $\lambda\uline{\omega}$}
 
     \begin{definition}
-        
+        The \textit{$\lambda$-calculus with type constructors}, denoted $\lambda\uline{\omega}$, consists of the following data.
+        \begin{enumerate}
+            \item Countably infinite sets $V$ of \textit{variables} and $C$ of \textit{constants}.
+            \item A set $\mc{T}\coloneqq V\,|\,C\,|\,\mc{T}\,\mc{T}\,|\,\lambda V\!:\!\mc{T}.\mc{T}\,|\,\mc{T}\rightarrow\mc{T}$ of \textit{pseudo-expressions}.
+            \item Fixed constants $\ast,\square\in C$, called \textit{types} and \textit{kinds}.
+            \item A \textit{$\beta$-reduction} rule $\rightarrow_\beta$ on $\mc{T}$ compatibly extending $(\lambda x\!:\!A.B)C\rightarrow_\beta B[C/x]$ for all $A,B,C\in\mc{T}$.
+            \item A \textit{type assignment} $\Gamma\proves A\!:\!B$ defined by the following rules; here $s$ is a symbol ranging over $\l\{\ast,\square\r\}$, and \textsc{Init} and \textsc{Weak} can only be applied if $x\not\in\dom\Gamma$.
+                {\small\begin{equation*}
+                    \begin{gathered}
+                        \infer[\mathsc{Axiom}]{\proves\ast:\square}{}\ \ \ \ 
+                        \infer[\mathsc{Init}]{\Gamma,x\!:\!A\proves x\!:\! A}{
+                            \Gamma\proves A\!:\!s
+                        }\ \ \ \ 
+                        \infer[\mathsc{Weak}]{\Gamma,x\!:\!C\proves A\!:\! B}{
+                            \Gamma\proves A\!:\!B &
+                            \Gamma\proves C\!:\!s
+                        }\ \ \ \ 
+                        \infer[\mathsc{Conv}]{\Gamma\proves A\!:\!B'}{
+                            \Gamma\proves A\!:\!B &
+                            \Gamma\proves B'\!:\!s &
+                            B=_\beta B'
+                        } \\
+                        \infer[\mathsc{Form}]{\Gamma\proves(A\rightarrow B)\!:\!s}{
+                            \Gamma\proves A\!:\!s &
+                            \Gamma\proves B\!:\!s
+                        }\ \ \ \ 
+                        \infer[\mathsc{App}]{\Gamma\proves Fa\!:\!B}{
+                            \Gamma\proves F\!:\!(A\rightarrow B) &
+                            \Gamma\proves a\!:\!A
+                        }\ \ \ \ 
+                        \infer[\mathsc{Abs}]{\Gamma\proves(\lambda x\!:\!A.b)\!:\!(A\rightarrow B)}{
+                            \Gamma,x\!:\!A\proves b\!:\!B &
+                            \Gamma\proves(A\rightarrow B)\!:\!s
+                        }
+                    \end{gathered}
+                \end{equation*}}
+        \end{enumerate}
     \end{definition}
-
-    \begin{lemma}
-        
-    \end{lemma}
 
     \begin{theorem}[Subject Reduction]
 
@@ -221,12 +251,44 @@
     \section{The $\lambda$-calculus with Dependent Types: $\lambda\mathbf{P}$}
 
     \begin{definition}
-        
+        The \textit{$\lambda$-calculus with dependent types}, denoted $\lambda\mathbf{P}$, consists of the following data.
+        \begin{enumerate}
+            \item Countably infinite sets $V$ of \textit{variables} and $C$ of \textit{constants}.
+            \item A set $\mc{T}\coloneqq V\,|\,C\,|\,\mc{T}\,\mc{T}\,|\,\lambda V\!:\!\mc{T}.\mc{T}\,|\,\Pi V\!:\!\mc{T}.\mc{T}$ of \textit{pseudo-expressions}.
+            \item Fixed constants $\ast,\square\in C$, called \textit{types} and \textit{kinds}.
+            \item A \textit{$\beta$-reduction} rule $\rightarrow_\beta$ on $\mc{T}$ compatibly extending $(\lambda x\!:\!A.B)C\rightarrow_\beta B[C/x]$ for all $A,B,C\in\mc{T}$.
+            \item A \textit{type assignment} $\Gamma\proves A\!:\!B$ defined by the following rules; here $s$ is a symbol ranging over $\l\{\ast,\square\r\}$, and \textsc{Init} and \textsc{Weak} can only be applied if $x\not\in\dom\Gamma$.
+                {\small\begin{equation*}
+                    \begin{gathered}
+                        \infer[\mathsc{Axiom}]{\proves\ast:\square}{}\ \ \ \ 
+                        \infer[\mathsc{Init}]{\Gamma,x\!:\!A\proves x\!:\! A}{
+                            \Gamma\proves A\!:\!s
+                        }\ \ \ \ 
+                        \infer[\mathsc{Weak}]{\Gamma,x\!:\!C\proves A\!:\! B}{
+                            \Gamma\proves A\!:\!B &
+                            \Gamma\proves C\!:\!s
+                        }\ \ \ \ 
+                        \infer[\mathsc{Conv}]{\Gamma\proves A\!:\!B'}{
+                            \Gamma\proves A\!:\!B &
+                            \Gamma\proves B'\!:\!s &
+                            B=_\beta B'
+                        } \\
+                        \infer[\mathsc{Form}]{\Gamma\proves(\Pi x\!:\!A.B)\!:\!s}{
+                            \Gamma\proves A\!:\!\ast &
+                            \Gamma,x\!:\!A\proves B\!:\!s
+                        }\ \ \ \ 
+                        \infer[\mathsc{App}]{\Gamma\proves Fa\!:\!B[a/x]}{
+                            \Gamma\proves F\!:\!(\Pi x\!:\!A.B) &
+                            \Gamma\proves a\!:\!A
+                        }\ \ \ \ 
+                        \infer[\mathsc{Abs}]{\Gamma\proves(\lambda x\!:\!A.b)\!:\!(\Pi x\!:\!A.B)}{
+                            \Gamma,x\!:\!A\proves b\!:\!B &
+                            \Gamma\proves(\Pi x\!:\!A.B)\!:\!s
+                        }
+                    \end{gathered}
+                \end{equation*}}
+        \end{enumerate}
     \end{definition}
-
-    \begin{lemma}
-        
-    \end{lemma}
 
     \begin{theorem}[Subject Reduction]
 
