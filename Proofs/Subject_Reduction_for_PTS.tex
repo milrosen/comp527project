@@ -24,18 +24,18 @@
 
     \section{The Simply-typed $\lambda$-calculus: $\lambda_\rightarrow$}
 
-    Throughout, fix countably infinite sets $V_p$ and $V_t$, whose element we call \textit{propositional variables} and \textit{type variables}, respectively. Since this is the most basic (typed) $\lambda$-calculus, we will be very formal here.
+    Throughout, fix countably infinite sets $V_p$ and $V_t$, whose elements we call \textit{propositional variables} and \textit{type variables}, respectively. Since this is the most basic (typed) $\lambda$-calculus, we will be very formal here.
 
     \begin{definition}
-        A \textit{simple type} is a propositional formula in the language $\l\{\rightarrow\r\}$; i.e., defined by the grammar $T\coloneqq V_t\,|\,T\rightarrow T$. We generally use the letters $\tau,\sigma,\rho,\ldots\in T$ for types.
+        A \textit{simple type} is a propositional formula in the language $\l\{\rightarrow\r\}$; i.e., defined by the grammar $T\coloneqq V_t\,|\,T\rightarrow T$. We generally use the letters $\tau,\sigma,\ldots\in T$ for types.
     \end{definition}
 
     \begin{definition}
-        A \textit{$\lambda$-term} is defined by the grammar $\Lambda\coloneqq V_p\,|\,\Lambda\,\Lambda\,|\,\lambda V_p\!:\!T.\Lambda$. We generally use the letters $M,N,P,\ldots\in\Lambda$ to denote $\lambda$-terms.
+        A \textit{$\lambda$-term} is defined by the grammar $\Phi\coloneqq V_p\,|\,\Phi\,\Phi\,|\,\lambda V_p\!:\!T.\Phi$. We generally use the letters $M,N,\ldots\in\Phi$ to denote $\lambda$-terms.
     \end{definition}
 
     \begin{definition}
-        A \textit{judgement} is a pair $(M,\tau)\in\Lambda\times T$, denoted $M\!:\!\tau$.
+        A \textit{judgement} is a pair $(M,\tau)\in\Phi\times T$, denoted $M\!:\!\tau$.
     \end{definition}
 
     \begin{remark}
@@ -43,9 +43,9 @@
     \end{remark}
 
     \begin{definition}
-        A \textit{context} is a finite set of pairs $\Gamma\coloneqq\l\{x_1\!:\!\tau_1,\dots,x_n\!:\!\tau_n\r\}$, where $x_i\in V$ are pairwise-distinct and each $\tau_i\in T$; that is, $\Gamma:V\parto T$ is a partial function, so we write $\Gamma(x)=\tau$ for $(x\!:\!\tau)\in\Gamma$ and we let
+        A \textit{context} is a finite set of pairs $\Gamma\coloneqq\l\{x_1\!:\!\tau_1,\dots,x_n\!:\!\tau_n\r\}$, where $x_i\in V_p$ are pairwise-distinct and each $\tau_i\in T$; that is, $\Gamma:V_p\parto T$ is a partial function, so we write $\Gamma(x)=\tau$ for $(x\!:\!\tau)\in\Gamma$ and we let
         \begin{equation*}
-            \dom\Gamma\coloneqq\l\{x\in V\st\Gamma(x)=\tau\textrm{ for some }\tau\in T\r\}\ \ \ \ \textrm{and}\ \ \ \ \im\Gamma\coloneqq\l\{\tau\in T\st\Gamma(x)=\tau\textrm{ for some }x\in V\r\}.
+            \dom\Gamma\coloneqq\l\{x\in V_p\st\Gamma(x)=\tau\textrm{ for some }\tau\in T\r\}\ \ \ \ \textrm{and}\ \ \ \ \im\Gamma\coloneqq\l\{\tau\in T\st\Gamma(x)=\tau\textrm{ for some }x\in V_p\r\}.
         \end{equation*}
     \end{definition}
 
@@ -79,14 +79,14 @@
     \end{proof}
 
     \begin{definition}
-        The set of \textit{free variables} of a $\lambda$-term $M\in\Lambda$ is defined inductively by
+        The set of \textit{free variables} of a $\lambda$-term $M\in\Phi$ is defined inductively by
         \begin{equation*}
             FV(x)\coloneqq\l\{x\r\},\ \ \ \ FV(\lambda x\!:\!\tau.M)\coloneqq FV(M)\comp\l\{x\r\},\ \ \ \ FV(M\,N)\coloneqq FV(M)\cup FV(N).
         \end{equation*}
     \end{definition}
 
     \begin{definition}
-        Let $M,N\in\Lambda$ and fix $x\in FV(M)$. The \textit{substitution} of $N$ for $x$ in $M$, written $M[N/x]$, is the $\lambda$-term defined by induction on $M$; below, $y\neq x$ and $y\not\in FV(N)$.
+        Let $M,N\in\Phi$ and fix $x\in FV(M)$. The \textit{substitution} of $N$ for $x$ in $M$, written $M[N/x]$, is the $\lambda$-term defined by induction on $M$; below, $y\neq x$ and $y\not\in FV(N)$.
         \begin{equation*}
             x[N/x]\coloneqq N,\ \ \ \ y[N/x]\coloneqq y,\ \ \ \ (P\,Q)[N/x]\coloneqq P[N/x]\,Q[N/x],\ \ \ \ (\lambda y\!:\!\tau.P)[N/x]\coloneqq\lambda y\!:\!\tau.P[N/x].
         \end{equation*}
@@ -100,11 +100,11 @@
 
         If $M=P\,Q$, then by Lemma \ref{lem:simply_typed_generation}.2, we have $\Gamma,x\!:\!\tau\proves P\!:\!\rho\rightarrow\sigma$ and $\Gamma,x\!:\!\tau\proves Q\!:\!\rho$ for some $\rho\in T$. By induction, we have $\Gamma,y\!:\!\tau\proves P[y/x]\!:\!\rho\rightarrow\sigma$ and $\Gamma,y\!:\!\tau\proves Q[y/x]\!:\!\rho$, on which \textsc{App} gives the desired.
 
-        If $M=\lambda z\!:\!\rho.N$, then $\Gamma,x\!:\!\tau\proves\lambda z\!:\!\rho.N\!:\!\sigma$ is obtained by \textsc{Abs}, so it is of the form $\Gamma,x\!:\!\tau,w\!:\!\rho\proves P\!:\!\eta$ for some $\eta\in T$ and $w,P\in\Lambda$ such that $\lambda z\!:\!\rho.N=\lambda w\!:\!\rho.P$ and $\sigma=\rho\to\eta$. Up to $\alpha$-conversion, we can choose $w$ so that $w\neq y$. Then, since $|P|=|N|<|M|$, we have by induction that $\Gamma,y\!:\!\tau,w\!:\!\rho\proves P[y/x]\!:\!\eta$, on which \textsc{Abs} gives $\Gamma,y\!:\!\tau\proves(\lambda w\!:\!\rho.P[y/x])\!:\!\sigma$. Now, $\lambda w\!:\!\rho.P[y/x]=(\lambda w\!:\!\rho.P)[y/x]=(\lambda z\!:\!\rho.N)[y/x]=M[y/x]$.
+        If $M=\lambda z\!:\!\rho.N$, then $\Gamma,x\!:\!\tau\proves\lambda z\!:\!\rho.N\!:\!\sigma$ is obtained by \textsc{Abs}, so it is of the form $\Gamma,x\!:\!\tau,w\!:\!\rho\proves P\!:\!\eta$ for some $\eta\in T$ and $w,P\in\Phi$ such that $\lambda z\!:\!\rho.N=\lambda w\!:\!\rho.P$ and $\sigma=\rho\to\eta$. Up to $\alpha$-conversion, we can choose $w$ so that $w\neq y$. Then, since $|P|=|N|<|M|$, we have by induction that $\Gamma,y\!:\!\tau,w\!:\!\rho\proves P[y/x]\!:\!\eta$, on which \textsc{Abs} gives $\Gamma,y\!:\!\tau\proves(\lambda w\!:\!\rho.P[y/x])\!:\!\sigma$. Now, $\lambda w\!:\!\rho.P[y/x]=(\lambda w\!:\!\rho.P)[y/x]=(\lambda z\!:\!\rho.N)[y/x]=M[y/x]$.
     \end{proof}
 
     \begin{proof}[Proof of Lemma \ref{lem:simply_typed_generation}.3]
-        The proof $\Gamma\proves(\lambda x\!:\!\sigma.N)\!:\!\tau$ must be obtained from \textsc{Abs}, so there is some $\rho\in T$ such that $\tau=\sigma\rightarrow\rho$ and some $y,P\in\Lambda$ such that $\Gamma,y\!:\!\sigma\proves P:\rho$ and $\lambda x\!:\!\sigma.N=\lambda y\!:\!\sigma.P$. If $x=y$, then $N=P$ and we are done. Otherwise, we have $P=N[x/y]$, so $\Gamma,y\!:\!\sigma\proves N[x/y]\!:\!\rho$, so substituting $y$ for $x$ and using Lemma \ref{lem:simply_typed_variable_substitution} gives $\Gamma,x\!:\!\sigma\proves N\!:\!\rho$, as desired.
+        The proof $\Gamma\proves(\lambda x\!:\!\sigma.N)\!:\!\tau$ must be obtained from \textsc{Abs}, so there is some $\rho\in T$ such that $\tau=\sigma\rightarrow\rho$ and some $y,P\in\Phi$ such that $\Gamma,y\!:\!\sigma\proves P:\rho$ and $\lambda x\!:\!\sigma.N=\lambda y\!:\!\sigma.P$. If $x=y$, then $N=P$ and we are done. Otherwise, we have $P=N[x/y]$, so $\Gamma,y\!:\!\sigma\proves N[x/y]\!:\!\rho$, so substituting $y$ for $x$ and using Lemma \ref{lem:simply_typed_variable_substitution} gives $\Gamma,x\!:\!\sigma\proves N\!:\!\rho$, as desired.
     \end{proof}
 
     \begin{lemma}[Change of Context]\label{lem:simply_typed_change_of_context}
@@ -126,11 +126,11 @@
     \end{proof}
 
     \begin{definition}
-        A relation $\esup$ on $\Lambda$ is \textit{compatible} if for any $M,N\in\Lambda$ with $M\esup N$, we have $MP\esup NP$ and $PM\esup PN$ for each $P\in\Lambda$, and $\lambda x\!:\!\tau.M\esup\lambda x\!:\!\tau.N$ for each $x\in V$ and $\tau\in T$.
+        A relation $\esup$ on $\Phi$ is \textit{compatible} if for any $M,N\in\Phi$ with $M\esup N$, we have $MP\esup NP$ and $PM\esup PN$ for each $P\in\Phi$, and $\lambda x\!:\!\tau.M\esup\lambda x\!:\!\tau.N$ for each $x\in V$ and $\tau\in T$.
     \end{definition}
 
     \begin{definition}
-        The least compatible relation $\rightarrow_\beta$ on $\Lambda$ satisfying $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Lambda$ is called \textit{$\beta$-reduction}. The term $(\lambda x\!:\!\tau.M)N$ is a \textit{$\beta$-redex}, and $M[N/x]$ arises by \textit{contracting} the redex.
+        The least compatible relation $\rightarrow_\beta$ on $\Phi$ satisfying $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Phi$ is called \textit{$\beta$-reduction}. The term $(\lambda x\!:\!\tau.M)N$ is a \textit{$\beta$-redex}, and $M[N/x]$ arises by \textit{contracting} the redex.
     \end{definition}
 
     \begin{notation}
@@ -144,108 +144,62 @@
         If $M=(\lambda x\!:\!\sigma.P)Q$ and $N=P[Q/x]$ for some $x\not\in\dom\Gamma$, then we have $\Gamma,x\!:\!\sigma\proves P\!:\!\tau$ and $\Gamma\proves Q\!:\!\sigma$ by Lemma \ref{lem:simply_typed_generation}.2 and \ref{lem:simply_typed_generation}.3, so $\Gamma\proves N\!:\!\tau$ by Lemma \ref{lem:simply_typed_substitution}. The general case follows by induction on $\twoheadrightarrow_\beta$.
     \end{proof}
 
-    The \textit{simply-typed $\lambda$-calculus} consists of the following data:
+    In summary, the \textit{simply-typed $\lambda$-calculus}, denoted $\lambda_\rightarrow$, consists of the following data:
     \begin{enumerate}
-        \item A set $T\coloneqq V_t\,|\,T\rightarrow T$ of \textit{$\lambda$-types} and a set $\Lambda\coloneqq V_p\,|\,\Lambda\,\Lambda\,|\,\lambda V_p\!:\!T.\Lambda$ of \textit{$\lambda$-terms}.
-        \item A \textit{$\beta$-reduction rule} $\rightarrow_\beta$ on $\Lambda$ compatibly extending $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Lambda$.
+        \item A set $T\coloneqq V_t\,|\,T\rightarrow T$ of \textit{$\lambda$-types} and a set $\Phi\coloneqq V_p\,|\,\Phi\,\Phi\,|\,\lambda V_p\!:\!T.\Phi$ of \textit{$\lambda$-terms}.
+        \item A \textit{$\beta$-reduction rule} $\rightarrow_\beta$ on $\Phi$ compatibly extending $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ for all $M,N\in\Phi$.
         \item A \textit{type assignment} relation $\Gamma\proves M\!:\!\tau$ defined by \textsc{Init}, \textsc{App}, and \textsc{Abs}.
     \end{enumerate}
+    All other $\lambda$-calculi considered here will follow a similar specification, so we will be briefer in what follows.
 
     \section{The polymorphic $\lambda$-calculus: $\lambda2$}
 
-    Throughout, fix two disjoint countable sets $V$ and $V_t$ of variables and \textit{type-variables}.
-
     \begin{definition}
-        A \textit{polymorphic type} is a propositional formula in the language $\l\{\rightarrow,\fa\r\}$ over $V_\tau$, i.e., defined by the grammar $\tau\coloneqq p\,|\,\tau\rightarrow\tau\,|\,\fa p\,\tau$ where $p\in V_t$. Let $\Phi_2$ denote the set of polymorphic types.
+        The \textit{polymorphic $\lambda$-calculus}, denoted $\lambda2$, consists of the following data.
+        \begin{enumerate}
+            \item A set $T\coloneqq V_t\,|\,T\rightarrow T\,|\,\fa V_t.T$ of \textit{polymorphic types}.
+            \item A set $\Phi\coloneqq V_p\,|\,\Phi\,\Phi\,|\,\lambda V_p\!:\!T.\Phi\,|\,\Lambda V_t.\Phi\,|\,\Phi\,T$ of \textit{polymorphic terms}.
+            \item A \textit{$\beta$-reduction} rule on $\Phi$ compatibly extending $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ and $(\Lambda p.M)\tau\rightarrow_\beta M[\tau/p]$ for all $M,N\in\Phi$ and $\tau\in T$.
+            \item A \textit{type assignment} relation $\Gamma\proves M\!:\!\tau$ defined by \textsc{Init}, \textsc{App}, \textsc{Abs}, and
+                \begin{equation*}
+                    \infer[\mathsc{Gen}\ (\textrm{if }p\not\in FV(\Gamma))]{\Gamma\proves\Lambda p.M\!:\!\fa p.\tau}{\Gamma\proves M\!:\!\tau}\ \ \ \ 
+                    \infer[\mathsc{Inst}]{\Gamma\proves M\,\tau\!:\!\sigma[\tau/p]}{\Gamma\proves M\!:\!\fa p.\sigma}
+                \end{equation*}
+        \end{enumerate}
     \end{definition}
 
-    \begin{definition}
-        A \textit{polymorphic term} is either a $\lambda$-term, a \textit{polymorphic abstraction} $\Lambda p\,M$ for $p\in V_t$, or a \textit{type application} $M\,\tau$ for $\tau\in\Phi_2$. That is, $M\coloneqq x\,|\,M\,M\,|\,\lambda x\!:\!\tau.M\,|\,\Lambda p\,M\,|\,M\,\tau$ where $\tau\in\Phi_2$ and $p\in V_t$. We denote by $\Lambda_2$ the set of all polymorphic terms. The set of \textit{free variables} of a polymorphic term $M$ and a polymorphic type $\tau$ is defined inductively by extending $FV$ from before, and letting
-        \begin{equation*}
-            \begin{gathered}
-                FV(\Lambda p\,M)\coloneqq FV(M)\comp\l\{p\r\},\ \ \ \ FV(M\,\tau)\coloneqq FV(M)\cup FV(\tau) \\
-                FV(p)\coloneqq\l\{p\r\},\ \ \ \ FV(\tau\rightarrow\sigma)\coloneqq FV(\tau)\cup FV(\sigma),\ \ \ \ FV(\fa p\,\tau)\coloneqq FV(\tau)-\l\{p\r\}.
-            \end{gathered}
-        \end{equation*}
-    \end{definition}
-
-    \begin{definition}
-        Let $\tau,\sigma\in\Phi_2$ and fix $p\in FV(\tau)$. The \textit{substitution} of $\sigma$ for $p$ in $\tau$, written $\tau[\sigma/p]$, is the polymorphic type defined by induction on $\tau$; below, $q\neq p$ and $q\not\in FV(\sigma)$.
-        \begin{equation*}
-            p[\sigma/p]\coloneqq\sigma,\ \ \ \ q[\sigma/p]\coloneqq q,\ \ \ \ (\tau_1\rightarrow\tau_2)[\sigma/p]\coloneqq\tau_1[\sigma/p]\rightarrow\tau_2[\sigma/p],\ \ \ \ (\fa q\,\tau)[\sigma/p]\coloneqq\fa q\,\tau[\sigma/p].
-        \end{equation*}
-        If $\Gamma:V\parto\Phi_2$ is a context, we let $(\Gamma[\sigma/p])(x)\coloneqq\Gamma(x)[\sigma/p]$.
-    \end{definition}
-
-    \begin{definition}
-        For $M,N\in\Lambda_2$ and $x\in FV(M)$, we extend the substitution $M[N/x]$ by letting $(\Lambda p\,M)[N/x]\coloneqq\Lambda p\,M[N/x]$ for $p\not\in FV(N)$ and $(M\,\tau)[N/x]\coloneqq M[N/x]\,\tau$. For $p\in FV(M)$ and $\sigma\in\Phi_2$, we define the \textit{substitution} of $\sigma$ for $p$ in $M$, written $M[\sigma/p]$, as the polymorphic term below, where $q\not\in FV(\sigma)\cup\l\{p\r\}$.
-        \begin{equation*}
-            \begin{gathered}
-                x[\sigma/p]\coloneqq x,\ \ \ \ (P\,Q)[\sigma/p]\coloneqq P[\sigma/p]\,Q[\sigma/p],\ \ \ \ (\lambda x\!:\!\tau.M)[\sigma/p]\coloneqq\lambda x\!:\!{\tau[\sigma/p]}.M[\sigma/p],\\
-                (M\,\tau)[\sigma/p]\coloneqq M[\sigma/p]\,\tau[\sigma/p],\ \ \ \ (\Lambda q\,M)[\sigma/p]\coloneqq\Lambda q\,M[\sigma/p].
-            \end{gathered}
-        \end{equation*}
-    \end{definition}
-
-    \begin{definition}
-        A judgement $\Gamma\proves M\!:\!\tau$ is \textit{derivable in $\lambda2$} if it is derivable in $\lambda_\rightarrow$ with the additional rules:
-        \begin{equation*}
-            \infer[\mathsc{Gen}]{\Gamma\proves\Lambda p\,M\!:\!\fa p\,\tau}{\Gamma\proves M\!:\!\tau}\ \ \ \ 
-            \infer[\mathsc{Inst}]{\Gamma\proves M\,\tau\!:\!\sigma[\tau/p]}{\Gamma\proves M\!:\!\fa p\,\sigma}
-        \end{equation*}
-        The \textsc{Gen} rule can only be applied if $p\not\in FV(\Gamma)$.
-    \end{definition}
-
-    A moments thought reveals that all results in the previous section apply here, with the only change that:
+    A moments thought reveals that all results in the previous section apply here. Indeed, the quantifier $\fa$ is introduced and eliminated independently from that of $\rightarrow$, and all notions regarding $\rightarrow$ is left unchanged.
 
     \begin{notation}
-        Throughout, we let $x,y,\ldots\in V$, $p,q,\ldots\in V_t$, $\tau,\sigma,\ldots\in\Phi_2$, and $M,N,\ldots\in\Lambda_2$. Also, note that $\alpha$-conversion applies to the $\Lambda$-binding too, so we can freely change $p$ in $\Lambda p\,M$.
+        We generally let $x,y,z,\ldots\in V_p$, $p,q,r,\ldots\in V_t$, $\tau,\sigma,\rho,\ldots\in T$, and $M,N,P,\ldots\in\Phi$. Also, note that $\alpha$-conversion applies to the $\Lambda$-binding too, so we can freely change $p$ in $\Lambda p.M$.
     \end{notation}
 
     \begin{lemma}[Variable Substitution]\label{lem:polymorphic_variable_substitution}
         If $\Gamma\proves M\!:\!\tau$, then $\Gamma[\sigma/p]\proves M[\sigma/p]\!:\!\tau[\sigma/p]$.
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
 
-    \begin{lemma}[Generation Lemma 1]\label{lem:polymorphic_generation_1}
-        If $\Gamma\proves M\,\tau\!:\!\sigma$, then $\sigma=\rho[\tau/p]$ and $\Gamma\proves M\!:\!\fa p\,\rho$.
+    \begin{lemma}[Generation Lemma]\label{lem:polymorphic_generation}
+        Suppose that $\Gamma\proves M\!:\!\tau$.
+        \begin{enumerate}
+            \item If $M=x$, $M=P\,Q$, or $M=\lambda x\!:\!\sigma.N$, then Lemma \ref{lem:simply_typed_generation} applies.
+            \item If $M=N\,\sigma$, then $\tau=\rho[\sigma/p]$ and $\Gamma\proves N\!:\!\fa p.\rho$ for some $\rho\in T$.
+            \item If $M=\Lambda p.N$ and $p\not\in FV(\ran\Gamma)$, then $\tau=\fa p.\sigma$ and $\Gamma\proves N\!:\!\sigma$ for some $\sigma\in T$.
+        \end{enumerate}
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
-
-    \begin{lemma}[Generation Lemma 2]\label{lem:polymorphic_generation_2}
-        If $\Gamma\proves\Lambda p\,M\!:\!\tau$ and $p\not\in FV(\ran\Gamma)$, then $\tau=\fa p\,\sigma$ and $\Gamma\proves M\!:\!\sigma$.
-    \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
 
     \begin{lemma}[Change of Context]\label{lem:polymorphic_change_of_context}
         If $\Gamma\proves M\!:\!\tau$ and $\Gamma(x)=\Gamma'(x)$ for all $x\in FV(M)$, then $\Gamma'\proves M\!:\!\tau$.
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
 
     \begin{lemma}[Substitution Lemma]\label{lem:polymorphic_substitution}
         If $\Gamma,x\!:\!\sigma\proves M\!:\!\tau$ and $\Gamma\proves N\!:\!\sigma$, then $\Gamma\proves M[N/x]:\tau$.
     \end{lemma}
-    \begin{proof}
-        \TODO
-    \end{proof}
-
-    \begin{definition}
-        The least compatible relation $\rightarrow_\beta$ on $\Lambda_2$ such that $(\lambda x\!:\!\tau.M)N\rightarrow_\beta M[N/x]$ and $(\Lambda p\,M)\tau\rightarrow_\beta M[\tau/p]$ is called \textit{$\beta$-reduction}. The same terminology applies.
-    \end{definition}
 
     \begin{theorem}[Subject Reduction]\label{thm:polymorphic_subject_reduction}
         If $\Gamma\proves M\!:\!\tau$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N\!:\!\tau$.
     \end{theorem}
     \begin{proof}
-        By Theorem \ref{thm:simply_typed_subject_reduction}, it suffices to prove it for when $M=(\Lambda p\,P)\sigma$ and $N=P[\sigma/p]$. Assuming without loss of generality that $p\not\in FV(\ran\Gamma)$, we have by Lemmas \ref{lem:polymorphic_generation_1} and \ref{lem:polymorphic_generation_2} that $\tau=\rho[\sigma/p]$ and $\Gamma\proves P\!:\!\rho$ for some $\rho$, whence $\Gamma[\sigma/p]\proves N\!:\!\tau$ by Lemma \ref{lem:polymorphic_variable_substitution}. But note that $(\Gamma[\sigma/p])(x)=\Gamma(x)[\sigma/p]=\Gamma(x)$ since $p\not\in FV(\ran\Gamma)$, so the result follows from Lemma \ref{lem:polymorphic_change_of_context}. \TODO[someone check this please]
+        By Theorem \ref{thm:simply_typed_subject_reduction}, it suffices to prove it for when $M=(\Lambda p.P)\sigma$ and $N=P[\sigma/p]$. Assuming without loss of generality that $p\not\in FV(\ran\Gamma)$, we have by Lemma \ref{lem:polymorphic_generation} that $\tau=\rho[\sigma/p]$ and $\Gamma\proves P\!:\!\rho$ for some $\rho$, whence $\Gamma[\sigma/p]\proves N\!:\!\tau$ by Lemma \ref{lem:polymorphic_variable_substitution}. But note that $(\Gamma[\sigma/p])(x)=\Gamma(x)[\sigma/p]=\Gamma(x)$ since $p\not\in FV(\ran\Gamma)$, so the result follows from Lemma \ref{lem:polymorphic_change_of_context}. \TODO[someone check this please]
     \end{proof}
 
     \section{The $\lambda$-calculus with type constructors: $\lambda\uline{\omega}$}
