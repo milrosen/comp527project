@@ -175,7 +175,7 @@
     \end{notation}
 
     \begin{lemma}[Variable Substitution]\label{lem:polymorphic_variable_substitution}
-        If $\Gamma\proves M\!:\!\tau$, then $\Gamma[\sigma/p]\proves M[\sigma/p]\!:\!\tau[\sigma/p]$.
+        If $\Gamma\proves M\!:\!\tau$ and $\sigma\in T$, then $\Gamma[\sigma/p]\proves M[\sigma/p]\!:\!\tau[\sigma/p]$.
     \end{lemma}
 
     \begin{lemma}[Generation Lemma]\label{lem:polymorphic_generation}
@@ -199,8 +199,10 @@
         If $\Gamma\proves M\!:\!\tau$ and $M\twoheadrightarrow_\beta N$, then $\Gamma\proves N\!:\!\tau$.
     \end{theorem}
     \begin{proof}
-        By Theorem \ref{thm:simply_typed_subject_reduction}, it suffices to prove it for when $M=(\Lambda p.P)\sigma$ and $N=P[\sigma/p]$. Assuming without loss of generality that $p\not\in FV(\ran\Gamma)$, we have by Lemma \ref{lem:polymorphic_generation} that $\tau=\rho[\sigma/p]$ and $\Gamma\proves P\!:\!\rho$ for some $\rho$, whence $\Gamma[\sigma/p]\proves N\!:\!\tau$ by Lemma \ref{lem:polymorphic_variable_substitution}. But note that $(\Gamma[\sigma/p])(x)=\Gamma(x)[\sigma/p]=\Gamma(x)$ since $p\not\in FV(\ran\Gamma)$, so the result follows from Lemma \ref{lem:polymorphic_change_of_context}. \TODO[someone check this please]
+        By Theorem \ref{thm:simply_typed_subject_reduction} (and Lemma \ref{lem:polymorphic_substitution}), it suffices to prove it for when $M=(\Lambda p.P)\sigma$ and $N=P[\sigma/p]$ for some $P\in\Phi$ and $\sigma\in T$. After an $\alpha$-conversion, we can assume without loss of generality that $p\not\in FV(\ran\Gamma)$, so by Lemma \ref{lem:polymorphic_generation}, we have $\tau=\rho[\sigma/p]$ and $\Gamma\proves P\!:\!\rho$ for some $\rho\in T$, and hence $\Gamma[\sigma/p]\proves N\!:\!\tau$ by Lemma \ref{lem:polymorphic_variable_substitution}. But $(\Gamma[\sigma/p])(x)=\Gamma(x)[\sigma/p]=\Gamma(x)$ since $p\not\in FV(\ran\Gamma)$, so the result follows from Lemma \ref{lem:polymorphic_change_of_context}.
     \end{proof}
+
+    \TODO[someone check this please]
 
     \section{The $\lambda$-calculus with type constructors: $\lambda\uline{\omega}$}
 
