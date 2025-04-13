@@ -1,0 +1,68 @@
+LF s : type =
+    | star : s
+    | box : s
+;
+
+LF axioms : s → s → type =
+    | axi : axioms star box
+;
+
+LF rules : s → s → s → type =
+    | rule : rules star star star
+;
+
+LF o : type =
+    | lam : o → (o → o) → o
+    | pi : o → (o → o) → o
+    | app : o → o → o
+    | const : s → o
+;
+
+LF pts : o → o → type =
+    | axiom : axioms s1 s2 → pts (const s1) (const s2)
+    % | start : pts A (const s1) → pts x A
+    | ΠE : pts F (pi A B) → pts a A → 
+        pts (app F a) (B a)
+
+    | ΠI : rules s1 s2 s3 → 
+        pts A (const s1) → ({x : o} pts x A → pts (B x) (const s2)) →
+        % ---
+        pts (pi A B) (const s3)
+
+    | λI : rules s1 s2 s3 → 
+        pts A (const s1) → ({x : o} pts x A → pts (m x) (B x)) →  ({x : o} pts x A → pts (B x) (const s2)) →
+        % ---
+        pts (lam A m) (pi A B)
+;
+% solid chance I delete this, remains to be seen
+LF value : o → type = 
+    | const_v : value (const s1)
+    | lam_v   : value v → value (lam v M)
+    | pi_v    : value v → value (pi v M)
+;
+LF step : o → o → type =
+    | e_app_1 : step M M' → step (app M N) (app M' N)
+    | e_app_2 : step M M' → value N → step (app N M) (app N M')
+    | e_app_lam : value M → step (app (lam T N) M) (N M)
+    | e_app_pi  : value M → step (app (pi  T N) M) (N M)
+;
+
+LF multi_step : o → o → type =
+    | ms_refl : multi_step M M
+    | ms_trans : multi_step M N' → multi_step N' N → multi_step M N
+    | ms_step : step M N → multi_step M N
+;
+
+
+
+% preservation: if Γ ⊢ A : B and A → A', then Γ ⊢ A' : B
+
+rec tps: [ ⊢ pts A B] → [ ⊢ step A A'] → [ ⊢ pts A' B] = 
+/ total s (tps _ _ _ _ s)/
+fn d => fn s => case s of 
+| [ ⊢ e_app_1 S1] => ?
+| [ ⊢ e_app_2 S1 _] => ?
+| [ ⊢ e_app_lam V] => ?
+| [ ⊢ e_app_pi  V] => ?
+
+;

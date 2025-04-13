@@ -10,8 +10,8 @@ LF axioms : s → s → type =
 LF rules : s → s → s → type =
     | rule : rules star star star
     | F_   : rules box  star star
-    | ω_   : rules box  box box
     | P_   : rules star box box
+    | ω_   : rules box  box box
 ;
 
 LF o : type =
@@ -48,7 +48,7 @@ rec imp : [A:o, D:pts A (const star) ⊢ pts (lam A \x.x) (pi A \x.A)] =
 %                -------------    --------------------    -------------   --------------------
 %                A : * ⊢ A : *    A : *, a : A ⊢ a : A    A : * ⊢ A : *   A : *, a : A ⊢ A : *
 % ----------     -------------------------------------    ------------------------------------
-%  ⊢ * : Box     A : * ⊢ λa : A . a : Π_ : A . A          A : * ⊢ Π_ : A . A : *  
+%  ⊢ * : Box     A : * ⊢ λa A . a : Π_ A . A          A : * ⊢ Π_ A . A : *  
 % ------------------------------------------------------------------------------
 %        ⊢ λA *. λa A. a : ΠA * . Π_ : A . A
 
@@ -62,5 +62,9 @@ rec cons : [ ⊢ pts (lam (const star) \x. (pi x \y.x)) (pi (const star) \x. (co
           (\x.\D. ΠI rule D (\x.\d.D))
           (\x.\D. axiom axi)] ;
 
-rec pred : [A:o, D1:pts A (const star), P:o, D2:pts P (pi A (\x. (const star))) 
-⊢ pts (lam A (\a. pi (P a) (\y. pi (const star) (\y.y))))]
+rec pred : [A:o, D1: pts A (const star), P:o, D2: pts P (pi A \x. (const star)) 
+⊢ pts (lam A \a. pi (app P a) \x. (app P a)) (pi A \x. const star)] = 
+[A:o, D1: pts A (const star), P:o, D2: pts P (pi A \x. (const star)) 
+⊢ λI P_ D1 
+        (\a.\D. ΠI rule (ΠE D2 D) (\x.\d.ΠE D2 D))
+        (\a.\D. axiom axi)] ;
