@@ -24,10 +24,13 @@ LF value : o → type =
     | pi_v    : value v → value (pi v M)
 ;
 LF step : o → o → type =
-    | e_app_1 : step M M'           → step (app M N) (app M' N)
-    | e_app_2 : step N N' → value M → step (app M N) (app M N')
     | e_app_lam : value M → step (app (lam T N) M) (N M)
-    % | e_app_pi  : value M → step (app (pi  T N) M) (N M)
+    | e_app_1 : step M M' → step (app M N) (app M' N)
+    | e_app_2 : step N N' → step (app M N) (app M N')
+    | e_lam_1 : step T T' → step (lam T M) (lam T' M) 
+    | e_lam_2 : step M M' → step (lam T \x.M) (lam T \x.M') 
+    | e_pi_1  : step T T' → step (pi T M) (pi T' M)
+    | e_pi_2  : step M M' → step (pi T \x.M) (pi T \x.M')
 ;
 
 LF pts : o → o → type =
@@ -44,7 +47,7 @@ LF pts : o → o → type =
         pts A (const s1) → ({x : o} pts x A → pts (m x) (B x)) →  ({x : o} pts x A → pts (B x) (const s2)) →
         % ---
         pts (lam A m) (pi A B)
-    | Conv : pts B C → pts C' (const s1) → step C C' → pts B C'
+    | Conv : pts B C' → pts C' (const s1) → step C C' → pts B C
 ;
 
 % notLam: o → type.
@@ -52,30 +55,41 @@ LF pts : o → o → type =
 
 % solid chance I delete this, remains to be seen
 
-
-
-
 schema ctx = some [A:o, S:s, P : pts A (const S)] block (x:o, A:o, d : pts x A);
+
+
 % preservation: if Γ ⊢ A : B and A → A', then Γ ⊢ A' : B
 % would need to prove that the two terms C and C' aren't literally the same
 % but are beta equiv.
 rec pres: {Γ:ctx} [Γ ⊢ pts B C] → [Γ ⊢ step B B'] → [Γ ⊢ pts B' C] = 
 / total st (pres _ _ _ d st)/
-mlam Γ => fn d => fn st => case st of 
-| [Γ ⊢ e_app_1 S1] => 
-    let [Γ ⊢ App D1 D2] = d in
-    let [Γ ⊢ D1'] = pres [Γ] [Γ ⊢ D1] [Γ ⊢ S1] in 
-    [Γ ⊢ App D1' D2]
-% this problem with the beta stuff comes in here. If we imagine that
-% (F A) : C, and that 
-| [Γ ⊢ e_app_2 S2 _] =>
-    let [Γ ⊢ App D1 D2] = d in
-    
-    % [Γ ⊢ App D1 D2']
-    ?
-| [Γ ⊢ e_app_lam V] => 
-     let [Γ ⊢ App D1 D2] = d in 
-    %  let [Γ ⊢ ]
-    ?
-% | [Γ ⊢ e_app_pi  V] => ?
+mlam Γ => fn d => fn st => case d of 
+| [Γ ⊢ App D1 D2] => 
+    (case st of 
+    | [Γ ⊢ e_app_lam A] => ?
+    | [Γ ⊢ e_app_1 S1] => ?
+    | [Γ ⊢ e_app_2 S2] => 
+        let [Γ ⊢ D2'] = pres [Γ] [Γ ⊢ D2] [Γ ⊢ S2] in 
+        % [Γ ⊢ App D1 D2']
+        ?
+    )
+| [Γ ⊢ ΠI R D1 \x.\d.D2] => ?
+| [Γ ⊢ λI R D1 (\x.\d.D2) (\x.\d.D3) ] => 
+    (case st of 
+    | [Γ ⊢ e_lam_1 S1] => 
+        let [Γ ⊢ D1'] = pres [Γ] [Γ ⊢ D1] [Γ ⊢ S1] in
+        % [Γ ⊢ λI R D1' (\x.\d.D2) (\x.\d.D3)]
+        ?
+    | [Γ ⊢ e_lam_2 S2] => 
+        let [Γ, b:block x:o, T:o, d:pts x T ⊢ D2'[.., b.1, b.2]] = 
+        pres [Γ, b:block x:o, T:o, d:pts x T]
+             [Γ, b ⊢ D2[..]] 
+             [Γ, b ⊢ S2] in ?
+    )
+| [Γ ⊢ Conv D1 D2 S2] => 
+    let [Γ ⊢ D1'] = pres [Γ] [Γ ⊢ D1] st in 
+    [Γ ⊢ Conv D1' D2 S2]
+| [Γ ⊢ axiom axi] => 
+    impossible st
+| [Γ ⊢ #p.3] => ?
 ;
