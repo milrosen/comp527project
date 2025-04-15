@@ -20,8 +20,7 @@ LF o : type =
 
 LF pts : o → o → type =
     | axiom : axioms s1 s2 → pts (const s1) (const s2)
-    % | start : pts A (const s1) → pts x A
-    | ΠE : pts F (pi A B) → pts a A → 
+    | App : pts F (pi A B) → pts a A → 
         pts (app F a) (B a)
 
     | ΠI : rules s1 s2 s3 → 
@@ -34,6 +33,10 @@ LF pts : o → o → type =
         % ---
         pts (lam A m) (pi A B)
 ;
+
+% notLam: o → type.
+% n_app: notLam (app M N).
+
 % solid chance I delete this, remains to be seen
 LF value : o → type = 
     | const_v : value (const s1)
@@ -41,28 +44,33 @@ LF value : o → type =
     | pi_v    : value v → value (pi v M)
 ;
 LF step : o → o → type =
-    | e_app_1 : step M M' → step (app M N) (app M' N)
-    | e_app_2 : step M M' → value N → step (app N M) (app N M')
+    | e_app_1 : step M M'           → step (app M N) (app M' N)
+    | e_app_2 : step N N' → value M → step (app M N) (app M N')
     | e_app_lam : value M → step (app (lam T N) M) (N M)
-    | e_app_pi  : value M → step (app (pi  T N) M) (N M)
-;
-
-LF multi_step : o → o → type =
-    | ms_refl : multi_step M M
-    | ms_trans : multi_step M N' → multi_step N' N → multi_step M N
-    | ms_step : step M N → multi_step M N
+    % | e_app_pi  : value M → step (app (pi  T N) M) (N M)
 ;
 
 
 
+schema ctx = some [A:o, S:s, P : pts A (const S)] block (x:o, d : pts x A);
 % preservation: if Γ ⊢ A : B and A → A', then Γ ⊢ A' : B
 
-rec tps: [ ⊢ pts A B] → [ ⊢ step A A'] → [ ⊢ pts A' B] = 
-/ total s (tps _ _ _ _ s)/
-fn d => fn s => case s of 
-| [ ⊢ e_app_1 S1] => ?
-| [ ⊢ e_app_2 S1 _] => ?
-| [ ⊢ e_app_lam V] => ?
-| [ ⊢ e_app_pi  V] => ?
+rec pres: {Γ:ctx} [Γ ⊢ pts B C] → [Γ ⊢ step B B'] → [Γ ⊢ pts B' C] = 
+/ total s (pres _ _ _ d s)/
+mlam Γ => fn d => fn s => case s of 
+| [Γ ⊢ e_app_1 S1] => 
+    let [Γ ⊢ App D1 D2] = d in
+    let [Γ ⊢ D1'] = pres [Γ] [Γ ⊢ D1] [Γ ⊢ S1] in 
+    [Γ ⊢ App D1' D2]
 
+| [Γ ⊢ e_app_2 S2 _] =>
+    let [Γ ⊢ App D1 D2] = d in
+    let [Γ ⊢ D2'] = pres [Γ] [Γ ⊢ D2] [Γ ⊢ S2] in
+    % [Γ ⊢ App D1 D2']
+    ?
+| [Γ ⊢ e_app_lam V] => 
+     let [Γ ⊢ App D1 D2] = d in 
+    %  let [Γ ⊢ ]
+    ?
+% | [Γ ⊢ e_app_pi  V] => ?
 ;
