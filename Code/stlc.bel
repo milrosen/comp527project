@@ -28,80 +28,128 @@ LF step : o → o → type =
     | e_app_1 : step M M' → step (app M N) (app M' N)
     | e_app_2 : step N N' → step (app M N) (app M N')
     | e_lam_1 : step T T' → step (lam T M) (lam T' M) 
-    | e_lam_2 : step M M' → step (lam T \x.M) (lam T \x.M') 
+    | e_lam_2 : ({x:o} step x x → step M M') → step (lam T \x.M) (lam T \x.M') 
     | e_pi_1  : step T T' → step (pi T M) (pi T' M)
-    | e_pi_2  : step M M' → step (pi T \x.M) (pi T \x.M')
+    | e_pi_2  : ({x:o} step x x → step M M') → step (pi T \x.M) (pi T \x.M')
+    | e_refl  : step X X 
+    | e_trans : step A B → step B C → step A C 
+    | e_sym   : step A B → step B A
 ;
 
 LF pts : o → o → type =
     | axiom : axioms s1 s2 → pts (const s1) (const s2)
-    | App : pts F (pi A B) → pts a A → 
+    | App : pts F (pi A B) → pts a A → ({x:o} pts x A → step x x → pts (B x) (const s1)) → 
         pts (app F a) (B a)
 
     | ΠI : rules s1 s2 s3 → 
-        pts A (const s1) → ({x : o} pts x A → pts (B x) (const s2)) →
+        pts A (const s1) → ({x : o} pts x A → step x x → pts (B x) (const s2)) →
         % ---
         pts (pi A B) (const s3)
 
     | λI : rules s1 s2 s3 → 
-        pts A (const s1) → ({x : o} pts x A → pts (m x) (B x)) →  ({x : o} pts x A → pts (B x) (const s2)) →
+        pts A (const s1) → ({x : o} pts x A → step x x → pts (m x) (B x)) →  ({x : o} pts x A → step x x → pts (B x) (const s2)) →
         % ---
         pts (lam A m) (pi A B)
     | Conv : pts B C' → pts C' (const s1) → step C C' → pts B C
 ;
 
+schema ctx = some [A:o, S:s, P : pts A (const S)] block (x:o, d : pts x A, v:step x x);
 % notLam: o → type.
 % n_app: notLam (app M N).
 
 % solid chance I delete this, remains to be seen
 
-schema ctx = some [A:o, S:s, P : pts A (const S)] block (x:o, A:o, d : pts x A);
+LF well_formed : o → type =
+    | is_sort : well_formed (const s1)
+    | has_sort : pts A (const s1) → well_formed A
+;
+
+rec presup :{Γ:ctx} [Γ ⊢ pts A B] → [Γ ⊢ well_formed B] = 
+/ total d (presup _ _ _ d) /
+mlam Γ => fn d => case d of 
+| [Γ ⊢ App D1 D2 \x.\d.\v.D3] => 
+    let ([Γ ⊢ D2] : [Γ ⊢ pts a A]) = [Γ ⊢ D2] in 
+    [Γ ⊢ has_sort D3[.., a, D2, e_refl]]
+| [Γ ⊢ λI R D1 (\x.\d.\v. D2) (\x.\d.\v.D3)] => 
+    [Γ ⊢ has_sort (ΠI R D1 \x.\d.\v.D3)]
+| [Γ ⊢ ΠI R D1 (\x.\d.\v. D2)] => [Γ ⊢ is_sort]
+| [Γ ⊢ Conv D1 D2 S1] => ?
+| [Γ ⊢ #p.2] => ?
+| [Γ ⊢ axiom axi] => [Γ ⊢ is_sort]
+;
+% inductive ctx_step: {Γ: ctx} → {Γ': ctx} ctype =
+%     | empty : ctx_step [] []
+%     | cons  : ctx_step [Γ] [Γ'] → [Γ ⊢ step A A'] → 
+%     % ----
+%     ctx_step [Γ, b:block (x:o, d:pts x A[..])] [Γ', b:block (x:o, d:pts x A'[..])] 
+% ;
 
 
+% rec subst_1: {Γ:ctx} {B : [Γ, x:o ⊢ o]} 
+%     [Γ ⊢ step A A'] -> [Γ ⊢ pts B[.., A] C] -> [Γ ⊢ pts B[.., A'] C] = 
+% / total d (subst_1 _ _ _ _ _ s d)/
+% mlam Γ, B => fn s, d => ?
+% ;
+
+% rec subst_2: {Γ:ctx} {C : [Γ, x:o ⊢ o]} 
+%     [Γ ⊢ step A A'] -> [Γ ⊢ pts B C[.., A]] -> [Γ ⊢ pts B C[.., A']] = 
+% / total d (subst_2 _ _ _ _ _ s d)/
+% mlam Γ, C => fn s, d => ?
+% ;
 % preservation: if Γ ⊢ A : B and A → A', then Γ ⊢ A' : B
 % would need to prove that the two terms C and C' aren't literally the same
 % but are beta equiv.
 rec pres: {Γ:ctx} [Γ ⊢ pts B C] → [Γ ⊢ step B B'] → [Γ ⊢ pts B' C] = 
 / total st (pres _ _ _ d st)/
 mlam Γ => fn d => fn st => case d of 
-| [Γ ⊢ App D1 D2] => 
+| [Γ ⊢ App D1 D2 \x.\d.\v.D3] => 
     (case st of     
     | [Γ ⊢ e_app_lam S1] => 
         % let [Γ ⊢ λI R A (\x.\d.M) (\x.\d.B)] = [Γ ⊢ D1] in ? 
         ?
     | [Γ ⊢ e_app_1 S1] => 
         let [Γ ⊢ D1'] = pres [Γ] [Γ ⊢ D1] [Γ ⊢ S1] in
-        [Γ ⊢ App D1' D2]
+        [Γ ⊢ App D1' D2 \x.\d.\v.D3]
     | [Γ ⊢ e_app_2 S2] => 
         let [Γ ⊢ D2'] = pres [Γ] [Γ ⊢ D2] [Γ ⊢ S2] in 
-        % in this case, we need to use the conversion rule inside the bound term. 
-        % like, since we know that a -> a', and that B : C[a], we wanna say that B : C[a']
-        % this might require multistep, since if a is a redex, then C[a'] take way more steps
-        % to reduce, if a' is going everywhere.
-        % unfortunately, we can't even access the C, and before we can use Conv, we need to
-        % show that C : s_n  
+        % [Γ ⊢ App D1 D2']
         ?
+    | [Γ ⊢ e_refl] => d
+    | [Γ ⊢ e_sym S1] => ?
+    | [Γ ⊢ e_trans S1 S2] => ?
     )
-| [Γ ⊢ ΠI R D1 \x.\d.D2] => ?
-| [Γ ⊢ λI R D1 (\x.\d.D2) (\x.\d.D3) ] => 
+| [Γ ⊢ ΠI R D1 \x.\d.\v.D2] => ?
+| [Γ ⊢ λI R D1 (\x.\d.\v.D2) (\x.\d.\v.D3) ] => 
     (case st of 
     | [Γ ⊢ e_lam_1 S1] => 
+        let ([Γ ⊢ D1'] : [Γ ⊢ pts T _]) = [Γ ⊢ D1] in
+        let ([Γ, b:block (x:o, d:pts x T[..], v:step x x) ⊢ D2'] : 
+             [Γ, b:block (x:o, d:pts x T[..], v:step x x) ⊢ pts M B']) = 
+             [Γ, b:block (x:o, d:pts x T[..], v:step x x) ⊢ D2[.., b.1, b.2, b.3]] in
         let [Γ ⊢ D1'] = pres [Γ] [Γ ⊢ D1] [Γ ⊢ S1] in
-        % [Γ ⊢ λI R D1' (\x.\d.D2) (\x.\d.D3)]
         ?
-    | [Γ ⊢ e_lam_2 S2] => 
-        % let [Γ, b:block x:o, T:o, d:pts x T ⊢ D2'[.., b.1, b.2]] = 
-        % pres [Γ, b:block x:o, T:o, d:pts x T]
-        %     %  [Γ, b ⊢ D2[..]] 
-        %      [Γ, b ⊢ S2] in 
-        ?
+        
+    | [Γ ⊢ e_lam_2 (\x.\v.S2)] => 
+        let ([Γ |- D1'] : [Γ |- pts T _]) = [Γ |- D1] in  
+        let [Γ, b:block (x:o, d:pts x T[..], v:step x x) ⊢ D2'[.., b.1, b.2, b.3]] = 
+        pres [Γ, b:block (x:o, d:pts x T[..], v:step x x)]
+             [Γ, b ⊢ D2[.., b.1, b.2, b.3]] 
+             [Γ, b ⊢ S2[.., b.1, b.3]] in 
+        [Γ ⊢ λI R D1' (\x.\d.\v.D2') (\x.\d.\v.D3)]
+    | [Γ ⊢ e_refl] => d 
+    | [Γ ⊢ e_sym S1] => ?
+    | [Γ ⊢ e_trans S1 S2] => ? 
     )
 | [Γ ⊢ Conv D1 D2 S2] => 
     let [Γ ⊢ D1'] = pres [Γ] [Γ ⊢ D1] st in 
     [Γ ⊢ Conv D1' D2 S2]
 | [Γ ⊢ axiom axi] => 
-    impossible st
-| [Γ ⊢ #p.3] => 
+    (case st of 
+    | [Γ ⊢ e_refl] => d
+    | [Γ ⊢ e_trans S1 S2] => ?
+    | [Γ ⊢ e_sym S1] => ?)
+| [Γ ⊢ #p.2] => 
     % pres [Γ] d st
     ?
+% and pres_2 {Γ:ctx} → {Γ':ctx} → ctx_step [Γ] [Γ'] → [Γ → pts A B] → [Γ' → pts A B]
 ;
