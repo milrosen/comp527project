@@ -14,7 +14,7 @@
     \begin{center}
         \vspace{-0.3in}
         \begin{minipage}{0.85\textwidth}\setstretch{0.8}
-            {\footnotesize{\textsc{Abstract.}} Following \cite{GN91} and \cite{Bar91}, we study the basics of \textit{pure type systems}, which abstract many of the constructs found in the eight systems of the \textit{$\lambda$-cube}. We start with a brief introduction to the systems of the $\lambda$-cube, discuss their expressibilities, and introduce pure type systems as a uniform framework in which they can be studied. We then give a detailed proof of subject reduction for arbitrary pure type systems.}
+            {\footnotesize{\textsc{Abstract.}} Following \cite{GN91} and \cite{Bar91}, we study the basics of \textit{pure type systems}, which abstract many of the constructs found in the eight systems of the \textit{$\lambda$-cube}. We start with a brief introduction to the systems of the $\lambda$-cube, discuss their expressibilities, and introduce pure type systems as a unifying framework in which they can be studied. We then give a detailed proof of subject reduction for arbitrary pure type systems.}
         \end{minipage}
     \end{center}
 
@@ -51,7 +51,7 @@
                 \vspace{-0.05in}
             \item If $\Gamma\proves(\Lambda x\!:\!M.N)\!:\!P$, then $\Gamma\proves M\!:\!s_1$, $\Gamma,x\!:\!M\proves Q\!:\!s_2$, $\Gamma,x\!:\!M\proves N\!:\!Q$, $\Gamma\proves P\!:\!s_3$, and $P=\Pi x\!:\! M.Q$ for some $(s_1,s_2,s_3)\in\mc{R}$ and $\sigma$-term $Q$.
                 \vspace{-0.05in}
-            \item If $\Gamma\proves M\,N\!:\!P$, then $\Gamma\proves M\!:\!(\Pi x\!:\!A.B)$, $\Gamma\proves N\!:\!A$, and $P=B[N/x]$ for some $\sigma$-terms $A$ and $B$.
+            \item If $\Gamma\proves M\,N\!:\!P$, then $\Gamma\proves M\!:\!(\Pi x\!:\!A.B)$, $\Gamma\proves N\!:\!A$, and $P=B[N/x]$ for some $\sigma$-terms $A$ and $B$
         \end{enumerate}
     \end{lemma}
 
