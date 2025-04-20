@@ -43,15 +43,15 @@
     \begin{lemma}[Stripping Lemma]\label{lem:stripping}
         Let $\Gamma=(x_1\!:\!M_1,\dots,x_n\!:\!M_n)$ be a $\sigma$-context and let $M,N,P$ be $\sigma$-terms.
         \begin{enumerate}
-            \item If $\Gamma\proves c\!:\!P$ where $c\in\mc{C}$, then $P=c'$ and $(c,c')\in\mc{A}$ for some $c'\in\mc{C}$.
+            \item If $\Gamma\proves c\!:\!P$ where $c\in\mc{C}$, then $P=_\beta c'$ and $(c,c')\in\mc{A}$ for some $c'\in\mc{C}$.
                 \vspace{-0.05in}
-            \item If $\Gamma\proves x\!:\!P$ where $x\in\mc{V}$, then $x=x_i\in\mc{V}^s$, $P=M_i$, and $\Gamma|(i-1)\proves M_i\!:\!s$ for some $i\leq n$ and $s\in\mc{S}$.
+            \item If $\Gamma\proves x\!:\!P$ where $x\in\mc{V}$, then $x=x_i\in\mc{V}^s$, $P=_\beta M_i$, and $\Gamma|(i-1)\proves M_i\!:\!s$ for some $i\leq n$ and $s\in\mc{S}$.
                 \vspace{-0.05in}
-            \item If $\Gamma\proves(\Pi x\!:\!M.N)\!:\!P$, then $\Gamma\proves M\!:\!s_1$, $\Gamma,x\!:\!M\proves N\!:\!s_2$, and $P=s_3$ for some $(s_1,s_2,s_3)\in\mc{R}$.
+            \item If $\Gamma\proves(\Pi x\!:\!M.N)\!:\!P$, then $\Gamma\proves M\!:\!s_1$, $\Gamma,x\!:\!M\proves N\!:\!s_2$, and $P=_\beta s_3$ for some $(s_1,s_2,s_3)\in\mc{R}$.
                 \vspace{-0.05in}
-            \item If $\Gamma\proves(\Lambda x\!:\!M.N)\!:\!P$, then $\Gamma\proves M\!:\!s_1$, $\Gamma,x\!:\!M\proves Q\!:\!s_2$, $\Gamma,x\!:\!M\proves N\!:\!Q$, $\Gamma\proves P\!:\!s_3$, and $P=\Pi x\!:\! M.Q$ for some $(s_1,s_2,s_3)\in\mc{R}$ and $\sigma$-term $Q$.
+            \item If $\Gamma\proves(\Lambda x\!:\!M.N)\!:\!P$, then $\Gamma\proves M\!:\!s_1$, $\Gamma,x\!:\!M\proves Q\!:\!s_2$, $\Gamma,x\!:\!M\proves N\!:\!Q$, $\Gamma\proves P\!:\!s_3$, and $P=_\beta\Pi x\!:\! M.Q$ for some $(s_1,s_2,s_3)\in\mc{R}$ and $\sigma$-term $Q$.
                 \vspace{-0.05in}
-            \item If $\Gamma\proves M\,N\!:\!P$, then $\Gamma\proves M\!:\!(\Pi x\!:\!A.B)$, $\Gamma\proves N\!:\!A$, and $P=B[N/x]$ for some $\sigma$-terms $A$ and $B$
+            \item If $\Gamma\proves M\,N\!:\!P$, then $\Gamma\proves M\!:\!(\Pi x\!:\!A.B)$, $\Gamma\proves N\!:\!A$, and $P=_\beta B[N/x]$ for some $\sigma$-terms $A$ and $B$
         \end{enumerate}
     \end{lemma}
 
