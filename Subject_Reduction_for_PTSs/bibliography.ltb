@@ -1,0 +1,22 @@
+\bib{GN91}{article}{
+    title={Modular proof of strong normalization for the calculus of constructions},
+    author={H. Geuvers},
+    author={M. Nederhof},
+    date={1991},
+    journal={Journal of Functional Programming},
+    volume={1},
+    number={2},
+    pages={155-189},
+    label={GN91}
+}
+
+\bib{Bar91}{article}{
+    title={Introduction to Generalized Type Systems},
+    author={H. Barendregt},
+    date={1991},
+    journal={Journal of Functional Programming},
+    volume={1},
+    number={2},
+    pages={125-154},
+    label={Bar91}
+}
