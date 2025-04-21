@@ -49,7 +49,7 @@
     \end{notation}
 
     \begin{definition}
-        Fix a $\sigma$-pseudocontext $\Gamma$ and $\sigma$-pseudoterms $M$ and $N$. We say that \textit{$\Gamma$ proves $M\!:\!N$}, and write $\Gamma\proves M\!:\!N$, if there is a finite well-founded tree $\mc{D}$, called a \textit{derivation}, such that the following hold.
+        Let $\Gamma$ be a $\sigma$-pseudocontext and let $M,N$ be $\sigma$-pseudoterms. We say that \textit{$\Gamma$ proves $M\!:\!N$}, and write $\Gamma\proves M\!:\!N$, if there is a finite well-founded tree $\mc{D}$, called a \textit{derivation}, such that the following hold.
         \begin{enumerate}
             \item Vertices of $\mc{D}$ are of the form $\Delta\proves A\!:\!B$, where $A$ and $B$ are $\sigma$-pseudoterms and $\Delta$ is a $\sigma$-pseudocontext.
                 \vspace{-0.20in}
@@ -75,7 +75,7 @@
     \end{definition}
 
     \begin{definition}
-        A $\sigma$-pseudocontext $\Gamma$ is a \textit{$\sigma$-context} if there are $\sigma$-pseudoterms $A,B$ such that $\Gamma\proves A\!:\!B$. Dually, a $\sigma$-pseudoterms $A$ is a \textit{$\sigma$-term} if there is a $\sigma$-context $\Gamma$ and a $\sigma$-pseudoterm $B$ such that $\Gamma\proves A\!:\!B$.
+        If $\Gamma\proves A\!:\!B$, then $\Gamma$ is a \textit{$\sigma$-context} and $A,B$ are \textit{$\sigma$-terms}.
     \end{definition}
 
     \begin{lemma}[Substitution Lemma; \cite{GN91}*{Lemma 17}]\label{lem:substitution}
