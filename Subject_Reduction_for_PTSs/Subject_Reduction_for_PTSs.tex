@@ -27,7 +27,7 @@
     To this end, \TODO[review $\lambda$-cube and the dependencies.]
 
     \begin{definition}
-        A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{S},\mc{A},\mc{R},\mc{V})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}, and a set $\mc{V}$ of \textit{variables} stratified by $\mc{V}=\bigsqcup_{s\in\mc{S}}\mc{V}^s$.
+        A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{V},\mc{S},\mc{A},\mc{R})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{V}$ of \textit{variables}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, and a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}.
     \end{definition}
 
     \begin{notation}
@@ -53,13 +53,11 @@
         \begin{enumerate}
             \item Vertices of $\mc{D}$ are of the form $\Delta\proves A\!:\!B$, where $A$ and $B$ are $\sigma$-pseudoterms and $\Delta$ is a $\sigma$-pseudocontext.
                 \vspace{-0.20in}
-            \item The root of $\mc{D}$ is $\Gamma\proves M\!:\!N$.
+            \item The root of $\mc{D}$ is $\Gamma\proves M\!:\!N$ and the leaves of $\mc{D}$ are instances of $\proves c\!:\!c'$, where $(c,c')\in\mc{A}$.
                 \vspace{-0.05in}
             \item Each interior vertex of $\mc{D}$ is a conclusion of an \textit{inference rule}, whose successors are exactly the premises.
-                \vspace{-0.20in}
-            \item The leaves of $\mc{D}$ are instances of an \textit{axiom} $\proves c\!:\!c'$ where $(c,c')\in\mc{A}$.
         \end{enumerate}
-        The inference rules of $\sigma$ are as follows. Below, $s\in\mc{S}$, $x\in\mc{V}^s\comp\dom\Gamma$, $(s_1,s_2,s_3)\in\mc{R}$, and $C=_\beta C'$.
+        The inference rules of $\sigma$ are as follows. Below, $s\in\mc{S}$, $x\in\mc{V}\comp\dom\Gamma$, $(s_1,s_2,s_3)\in\mc{R}$, and $C=_\beta C'$.
         \hfuzz16px\begin{adjustwidth}{-8pt}{0pt}\vspace{-0.1in}
         {\small\begin{equation*}
             \begin{gathered}
