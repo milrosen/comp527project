@@ -27,7 +27,17 @@
     To this end, \TODO[review $\lambda$-cube and the dependencies.]
 
     \begin{definition}
-        A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{V},\mc{S},\mc{A},\mc{R})$ \TODO
+        A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{S},\mc{A},\mc{R},\mc{V})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}, and a set $\mc{V}$ of \textit{variables} stratified by $\mc{V}=\bigsqcup_{s\in\mc{S}}\mc{V}^s$.
+    \end{definition}
+
+    \begin{notation}
+        Throughout, let $\sigma$ be denote an arbitrary pure type system.
+    \end{notation}
+
+    \TODO[link this with the $\lambda$-cube by interpreting $\lambda_\to$ as a PTS.]
+
+    \begin{definition}
+        The collection of \textit{$\sigma$-pseudoterms} is defined by $T\coloneqq\mc{V}\,|\,\mc{C}\,|\,(T\,T)\,|\,(\lambda\mc{V}\!:\!T.T)\,|\,(\Pi\mc{V}\!:\!T.T)$. Pairs $(A,B)\in T^2$ are called \textit{$\sigma$-assignments}, written $A\!:\!B$, and a finite sequence thereof is called a \textit{$\sigma$-pseudocontext}.
     \end{definition}
 
     \begin{definition}
@@ -62,6 +72,10 @@
             \end{gathered}
         \end{equation*}}
         \end{adjustwidth}
+    \end{definition}
+
+    \begin{definition}
+        A $\sigma$-pseudocontext $\Gamma$ is a \textit{$\sigma$-context} if there are $\sigma$-pseudoterms $A,B$ such that $\Gamma\proves A\!:\!B$. Dually, a $\sigma$-pseudoterms $A$ is a \textit{$\sigma$-term} if there is a $\sigma$-context $\Gamma$ and a $\sigma$-pseudoterm $B$ such that $\Gamma\proves A\!:\!B$.
     \end{definition}
 
     \begin{lemma}[Substitution Lemma; \cite{GN91}*{Lemma 17}]\label{lem:substitution}
