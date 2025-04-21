@@ -97,12 +97,12 @@
         \end{enumerate}
     \end{lemma}
 
-    \begin{theorem}[Subject Reduction]
-        Let $\Gamma,\Gamma'$ be $\sigma$-contexts, $M,M',N$ be $\sigma$-terms, and suppose that $\Gamma\proves M\!:\!N$.
+    \begin{theorem}[Subject Reduction; \cite{GN91}*{Lemma 22}]
+        Let $\Gamma,\Gamma'$ be $\sigma$-contexts and let $M,M',N$ be $\sigma$-terms.
         \begin{enumerate}
-            \item If $M\twoheadrightarrow_\beta M'$, then $\Gamma\proves M'\!:\! N$.
+            \item If $\Gamma\proves M\!:\!N$ and $M\twoheadrightarrow_\beta M'$, then $\Gamma\proves M'\!:\! N$.
                 \vspace{-0.05in}
-            \item If $\Gamma\twoheadrightarrow_\beta\Gamma'$, then $\Gamma'\proves M\!:\! N$.
+            \item If $\Gamma\proves M\!:\!N$ and $\Gamma\twoheadrightarrow_\beta\Gamma'$, then $\Gamma'\proves M\!:\! N$.
         \end{enumerate}
     \end{theorem}
     \begin{proof}
