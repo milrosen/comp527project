@@ -20,16 +20,50 @@
         \end{minipage}
     \end{center}
 
-    Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and also supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that it can be proven uniformly across many different type systems, and this is the goal of the present note.
+    Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and also supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that it can be stated and proven uniformly across many different type systems, and this is the goal of the present note.
 
-    To this end, we follow \cite{Bar91} and work within the framework of \textit{pure type systems}, which is an abstraction of type systems based on the idea of `dependencies' between terms and types. In the simply-typed $\lambda$-calculus $\lambda_\rightarrow$, terms depend on terms: $F\,x$ is a term depending on the term $x$, and we can abstract this dependency to a function $\lambda x\!:\!\alpha_1.(F\,x)$ of type $\alpha_1\rightarrow\alpha_2$, where $F\,x\!:\!\alpha_2$. The other ways that terms and types can be mutually dependent are present in other type systems extending $\lambda_\rightarrow$.
-    \begin{itemize}\small
-        \item In the polymorphic $\lambda$-calculus $\lambda2$, the term $I_\alpha\coloneqq\lambda x\!:\!\alpha.x$ depends on the type $\alpha$, and abstracts to $\lambda\alpha\!:\!\ast.I_\alpha$ of type $\fa\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$. Here, `$\alpha\!:\!\ast$' formalizes `$\alpha$ is a type' within $\lambda2$.
+    To this end, we follow \cite{Bar91} and work within the framework of \textit{pure type systems}, which is an abstraction of type systems based on the idea of `dependencies' between terms and types. In the simply-typed $\lambda$-calculus $\lambda_\rightarrow$, terms depend on terms: $F\,x$ is a term depending on the term $x$, and we can abstract this dependency to a function $\lambda x\!:\!\alpha_1.(F\,x)$ of type $\alpha_1\rightarrow\alpha_2$, where $F\,x\!:\!\alpha_2$. The other three ways that terms and types can be mutually dependent are present in other type systems, all extending $\lambda_\rightarrow$.
+    \begin{itemize}
+        \item In the polymorphic $\lambda$-calculus $\lambda2$, the term $I_\alpha\coloneqq\lambda x\!:\!\alpha.x$ depends on the type $\alpha$, and this abstracts to $\lambda\alpha\!:\!\ast.I_\alpha$ of type $\fa\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$. Here, `$\alpha\!:\!\ast$' formalizes `$\alpha$ is a type' within $\lambda2$.
             \vspace{-0.05in}
-        \item In the (weak) higher-order $\lambda$-calculus $\lambda\underline{\omega}$, the type $\alpha\rightarrow\alpha$ depends on the type $\alpha$, and abstracts to $\lambda\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$ of \textit{kind} $\ast\to\ast$. This function is a \textit{constructor}, as it constructs a type $\alpha\rightarrow\alpha$ for each type $\alpha$.
+        \item In the (weak) higher-order $\lambda$-calculus $\lambda\underline{\omega}$, the type $\alpha\rightarrow\alpha$ depends on the type $\alpha$, and this abstracts to a \textit{constructor} $\lambda\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$ of \textit{kind} $\ast\to\ast$.
             \vspace{-0.05in}
-        \item In the $\lambda$-calculus $\lambda\mathbf{P}$ of dependent types, the type $\alpha_1^n\to\alpha_2$ depends on the term $n$, and similarly abstracts to $\lambda n\!:\!\N.(\alpha_1^n\to\alpha_2)$ of kind $\N\to\ast$. \TODO
+        \item In the $\lambda$-calculus $\lambda\mathrm{P}$ of dependent types, the type $\alpha_1^n\to\alpha_2$ depends on the term $n$, and this abstracts to a constructor $\lambda n\!:\!\N.(\alpha_1^n\to\alpha_2)$ of kind $\N\to\ast$.
     \end{itemize}
+    Imposing that the type systems that we care about all extend $\lambda_\rightarrow$, and hence terms can depend on terms, we obtain a total of $8=2^3$ type systems with all possible combinations of dependencies, called the \textit{$\lambda$-cube}:
+    \vspace{-0.05in}
+    \begin{center}
+        \begin{minipage}{0.3\textwidth}
+            \begin{equation*}
+                \begin{tikzcd}[row sep=scriptsize, column sep=0.1in]
+                    & \lambda\omega \arrow[dl, -] \arrow[rr, -] \arrow[dd, -] & & \lambda\mathrm{C} \arrow[dl, -] \arrow[dd, -] \\
+                    \lambda2 \arrow[rr, crossing over, -] \arrow[dd, -] & & \lambda\mathrm{P}2 \\
+                    & \lambda\underline{\omega} \arrow[dl, -] \arrow[rr, -] & & \lambda\mathrm{P}\underline{\omega} \arrow[dl, -] \\
+                    \lambda_\rightarrow \arrow[rr, -] & & \lambda\mathrm{P} \arrow[from=uu, crossing over, -]
+                \end{tikzcd}
+                \vspace{-0.05in}
+            \end{equation*}
+        \end{minipage}
+        \begin{minipage}{0.5\textwidth}
+            \begin{center}
+                \begin{tabular}{c|cccc}
+                    Type system & \multicolumn{4}{c}{Dependencies} \\
+                    \hline
+                    $\lambda_\rightarrow$                       & $(\ast,\ast)$ &                  &                     &                  \\
+                    $\lambda2$                                  & $(\ast,\ast)$ & $(\square,\ast)$ &                     &                  \\
+                    $\lambda\underline{\omega}$                 & $(\ast,\ast)$ &                  & $(\square,\square)$ &                  \\
+                    $\lambda\omega=\lambda2\underline{\omega}$  & $(\ast,\ast)$ & $(\square,\ast)$ & $(\square,\square)$ &                  \\
+                    $\lambda\mathrm{P}$                         & $(\ast,\ast)$ &                  &                     & $(\ast,\square)$ \\
+                    $\lambda\mathrm{P}2$                        & $(\ast,\ast)$ & $(\square,\ast)$ &                     & $(\ast,\square)$ \\
+                    $\lambda\mathrm{P}\underline{\omega}$       & $(\ast,\ast)$ &                  & $(\square,\square)$ & $(\ast,\square)$ \\
+                    $\lambda\mathrm{C}=\lambda\mathrm{P}\omega$ & $(\ast,\ast)$ & $(\square,\ast)$ & $(\square,\square)$ & $(\ast,\square)$ \\
+                \end{tabular}
+            \end{center}
+        \end{minipage}
+    \end{center}
+    The systems $\lambda\mathrm{P}\underline{\omega}$, $\lambda\mathrm{P}2$, and $\lambda\omega\coloneqq\lambda2\underline{\omega}$ have three kinds of dependencies, while the strongest system of them all, the \textit{calculus of constructions} $\lambda\mathrm{C}\coloneqq\lambda\mathrm{P}\omega$, have all four kinds of dependencies.
+
+    To explain the table on the right, we observe due to the mutual dependencies between terms and types, it is no longer natural to separate their definitions. Instead, we propose a uniform object, called a \textit{pseudoterm}, and consider the judgement $M\!:\!N$ between pseudoterms $M$ and $N$. These pseudoterms include terms, types, and kinds, so this begs the question: what is $\ast$? If $\ast\!:\!\ast$, then one might encounter a Russell-like paradox of the `type of all types', so instead, we introduce a new symbol $\square$, the `sort of all kinds', and assert that $\ast\!:\!\square$. Similarly, $(\ast\to\ast)\!:\!\square$ and $(\N\to\ast)\!:\!\square$, so sorts also capture the identity of constructors.
 
     \begin{definition}
         A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{V},\mc{S},\mc{A},\mc{R})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{V}$ of \textit{variables}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, and a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}.
