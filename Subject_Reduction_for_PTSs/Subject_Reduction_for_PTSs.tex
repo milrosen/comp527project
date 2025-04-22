@@ -20,11 +20,16 @@
         \end{minipage}
     \end{center}
 
-    \subsection*{Introduction}
+    Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and also supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that it can be proven uniformly across many different type systems, and this is the goal of the present note.
 
-    Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and which supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that we can prove it uniformly across many different type systems, and this is the goal of the present note.
-
-    To this end, \TODO[review $\lambda$-cube and the dependencies.]
+    To this end, we follow \cite{Bar91} and work within the framework of \textit{pure type systems}, which is an abstraction of type systems based on the idea of `dependencies' between terms and types. In the simply-typed $\lambda$-calculus $\lambda_\rightarrow$, terms depend on terms: $F\,x$ is a term depending on the term $x$, and we can abstract this dependency to a function $\lambda x\!:\!\alpha_1.(F\,x)$ of type $\alpha_1\rightarrow\alpha_2$, where $F\,x\!:\!\alpha_2$. The other ways that terms and types can be mutually dependent are present in other type systems extending $\lambda_\rightarrow$.
+    \begin{itemize}\small
+        \item In the polymorphic $\lambda$-calculus $\lambda2$, the term $I_\alpha\coloneqq\lambda x\!:\!\alpha.x$ depends on the type $\alpha$, and abstracts to $\lambda\alpha\!:\!\ast.I_\alpha$ of type $\fa\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$. Here, `$\alpha\!:\!\ast$' formalizes `$\alpha$ is a type' within $\lambda2$.
+            \vspace{-0.05in}
+        \item In the (weak) higher-order $\lambda$-calculus $\lambda\underline{\omega}$, the type $\alpha\rightarrow\alpha$ depends on the type $\alpha$, and abstracts to $\lambda\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$ of \textit{kind} $\ast\to\ast$. This function is a \textit{constructor}, as it constructs a type $\alpha\rightarrow\alpha$ for each type $\alpha$.
+            \vspace{-0.05in}
+        \item In the $\lambda$-calculus $\lambda\mathbf{P}$ of dependent types, the type $\alpha_1^n\to\alpha_2$ depends on the term $n$, and similarly abstracts to $\lambda n\!:\!\N.(\alpha_1^n\to\alpha_2)$ of kind $\N\to\ast$. \TODO
+    \end{itemize}
 
     \begin{definition}
         A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{V},\mc{S},\mc{A},\mc{R})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{V}$ of \textit{variables}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, and a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}.
