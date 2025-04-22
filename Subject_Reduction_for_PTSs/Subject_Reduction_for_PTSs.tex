@@ -26,9 +26,7 @@
     \begin{itemize}
         \item In the polymorphic $\lambda$-calculus $\lambda2$, the term $I_\alpha\coloneqq\lambda x\!:\!\alpha.x$ depends on the type $\alpha$, and this abstracts to $\lambda\alpha\!:\!\ast.I_\alpha$ of type $\fa\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$. Here, `$\alpha\!:\!\ast$' formalizes `$\alpha$ is a type' within $\lambda2$.
             \vspace{-0.05in}
-        \item In the (weak) higher-order $\lambda$-calculus $\lambda\underline{\omega}$, the type $\alpha\rightarrow\alpha$ depends on the type $\alpha$, and this abstracts to a \textit{constructor} $\lambda\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$ of \textit{kind} $\ast\to\ast$.
-            \vspace{-0.05in}
-        \item In the $\lambda$-calculus $\lambda\mathrm{P}$ of dependent types, the type $\alpha_1^n\to\alpha_2$ depends on the term $n$, and this abstracts to a constructor $\lambda n\!:\!\N.(\alpha_1^n\to\alpha_2)$ of kind $\N\to\ast$.
+        \item In the (weak) higher-order $\lambda$-calculus $\lambda\underline{\omega}$, the type $\alpha\rightarrow\alpha$ depends on the type $\alpha$, and this abstracts to a \textit{constructor} $\lambda\alpha\!:\!\ast.(\alpha\rightarrow\alpha)$ of \textit{kind} $\ast\to\ast$. Similarly, in the $\lambda$-calculus $\lambda\mathrm{P}$ of dependent types, the type $\alpha_1^n\to\alpha_2$ depends on the term $n$, and abstracts to a constructor $\lambda n\!:\!\N.(\alpha_1^n\to\alpha_2)$ of kind $\N\to\ast$.
     \end{itemize}
     Imposing that the type systems that we care about all extend $\lambda_\rightarrow$, and hence terms can depend on terms, we obtain a total of $8=2^3$ type systems with all possible combinations of dependencies, called the \textit{$\lambda$-cube}:
     \vspace{-0.05in}
