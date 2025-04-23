@@ -36,3 +36,40 @@
     },
     label={Bar92}
 }
+
+\bib{Ter95}{article}{
+    title={Strong normalization in type systems: a model theoretical approach},
+    author={J. Terlouw},
+    date={1995},
+    journal={Annals of Pure and Applied Logic},
+    volume={73},
+    pages={53-78},
+    label={Ter95}
+}
+
+\bib{BHS01}{article}{
+    title={An induction principle for pure type systems},
+    author={G. Barthe},
+    author={J. Hatcliff},
+    author={M. H. B. Sorensen},
+    date={2001},
+    journal={Theoretical Computer Science},
+    volume={266},
+    pages={773-818},
+    label={BHS01}
+}
+
+\bib{BG05}{article}{
+    title={On the Role of Type Decorations in the Calculus of Inductive Constructions},
+    author={B. Barras},
+    author={B. Gr{\'e}goire},
+    book={
+        series={Computer Science Logic, CSL 2005, Lecture Notes in Computer Science},
+        publisher={Springer Berlin Heidelberg},
+        volume={3634},
+        date={2005},
+        editor={L. Ong},
+        pages={151-166}
+    },
+    label={BG05}
+}

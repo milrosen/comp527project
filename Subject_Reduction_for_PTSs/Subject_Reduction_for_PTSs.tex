@@ -19,6 +19,8 @@
             {\footnotesize{\textsc{Abstract.}} Following \cite{GN91} and \cite{Bar91}, we study the basics of \textit{pure type systems}, which abstract many of the constructs found in the eight systems of the \textit{$\lambda$-cube}. We start with a brief introduction to the systems of the $\lambda$-cube, discuss their expressive power, and introduce pure type systems as a unifying framework in which they can be studied. We then give a detailed proof of subject reduction for arbitrary pure type systems.}
         \end{minipage}
     \end{center}
+
+    \subsection*{Introduction}
     
     Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and also supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that it can be stated and proven uniformly across many different type systems, and this is the goal of the present note.
 
@@ -74,9 +76,9 @@
         A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{V},\mc{S},\mc{A},\mc{R})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{V}$ of \textit{variables}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, and a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}.
     \end{definition}
 
-    Intuitively, \textit{sorts} are universes imposing some sort (pun intended) of classification, \textit{constants} are symbols living in a sort/constant as dictated by \textit{axioms} (for instance, $0\!:\!\N$, $\N\!:\!\ast$, and $\ast\!:\!\square$), and the \textit{rules} restrict the formation of abstractions as motivated above. For the systems in the $\lambda$-cube, we write $(s_1,s_2)\coloneqq(s_1,s_2,s_2)$. See \cite{Bar91} or \cite{Bar92} for how the eight systems in the $\lambda$-cube can be interpreted as pure type systems.
+    Intuitively, \textit{sorts} are universes imposing some sort (pun intended) of classification, \textit{constants} are symbols living in a sort/constant as dictated by \textit{axioms} (for instance, $0\!:\!\N$, $\N\!:\!\ast$, and $\ast\!:\!\square$), and the \textit{rules} restrict the formation of abstractions as motivated above. For the systems in the $\lambda$-cube, we write $(s_1,s_2)\coloneqq(s_1,s_2,s_2)$; see \cite{Bar91} or \cite{Bar92} for how the eight systems in the $\lambda$-cube can be interpreted as pure type systems.
 
-    Let us now proceed by defining the necessary notions to state and proof subject reduction for $\sigma$, for which we will also need two basic lemmas in \cite{GN91}. We invite the reader to see how the following restrict to the standard notions/proofs for systems in the $\lambda$-cube.
+    Let us now proceed by defining the necessary notions to state and prove subject reduction for an arbitrary pure type system $\sigma$, for which we will need two lemmas in \cite{GN91}. We also invite the reader to see how the following restrict to the standard notions/proofs for systems in the $\lambda$-cube.
 
     \begin{definition}
         The collection of \textit{$\sigma$-pseudoterms} is defined by $T\coloneqq\mc{V}\,|\,\mc{C}\,|\,(T\,T)\,|\,(\lambda\mc{V}\!:\!T.T)\,|\,(\Pi\mc{V}\!:\!T.T)$. Pairs $(A,B)\in T^2$ are called \textit{$\sigma$-assignments}, written $A\!:\!B$, and a finite sequence thereof is called a \textit{$\sigma$-pseudocontext}.
@@ -146,7 +148,9 @@
         \end{enumerate}
     \end{theorem}
 
-    \subsection*{Appendix}
+    Let us close by mentioning that beyond providing uniform proofs for many statements in the $\lambda$-cube (see \cite{GN91} for a modular proof of strong normalization for systems in the $\lambda$-cube), pure type systems remain an active area of research nowadays. See \cite{Ter95}, \cite{BHS01}, and \cite{BG05} for surveys and extensions.
+
+    \subsection*{Appendix: proofs}
 
     We sketch a proof of the Stripping Lemma, since it is crucial to the proof of subject reduction, and provide the full proof of subject reduction for an arbitrary pure type system $\sigma$.
 
