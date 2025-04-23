@@ -20,3 +20,19 @@
     pages={125-154},
     label={Bar91}
 }
+
+\bib{Bar92}{article}{
+    title={Lambda calculi with types},
+    author={H. Barendregt},
+    book={
+        series={Handbook of Logic in Computer Science},
+        volume={2},
+        publisher={Oxford University Press},
+        date={1992},
+        editor={S. Abramsky},
+        editor={Dov M. Gabbay},
+        editor={T. S. E. Maibaum},
+        pages={117-310}
+    },
+    label={Bar92}
+}

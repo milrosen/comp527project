@@ -74,13 +74,9 @@
         A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{V},\mc{S},\mc{A},\mc{R})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{V}$ of \textit{variables}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, and a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}.
     \end{definition}
 
-    Intuitively, \textit{sorts} are universes imposing some sort (pun intended) of classification, \textit{constants} are symbols living in a sort/constant as dictated by \textit{axioms} (for instance, $0\!:\!\N$, $\N\!:\!\ast$, and $\ast\!:\!\square$), and the \textit{rules} restrict the formation of abstractions as motivated above. For the systems in the $\lambda$-cube, we write $(s_1,s_2)\coloneqq(s_1,s_2,s_2)$.
+    Intuitively, \textit{sorts} are universes imposing some sort (pun intended) of classification, \textit{constants} are symbols living in a sort/constant as dictated by \textit{axioms} (for instance, $0\!:\!\N$, $\N\!:\!\ast$, and $\ast\!:\!\square$), and the \textit{rules} restrict the formation of abstractions as motivated above. For the systems in the $\lambda$-cube, we write $(s_1,s_2)\coloneqq(s_1,s_2,s_2)$. See \cite{Bar91} or \cite{Bar92} for how the eight systems in the $\lambda$-cube can be interpreted as pure type systems.
 
-    \begin{notation}
-        Throughout, let $\sigma$ be denote an arbitrary pure type system.
-    \end{notation}
-
-    \TODO[link this with the $\lambda$-cube by interpreting $\lambda_\to$ as a PTS.]
+    Let us now proceed by defining the necessary notions to state and proof subject reduction for $\sigma$, for which we will also need two basic lemmas in \cite{GN91}. We invite the reader to see how the following restrict to the standard notions/proofs for systems in the $\lambda$-cube.
 
     \begin{definition}
         The collection of \textit{$\sigma$-pseudoterms} is defined by $T\coloneqq\mc{V}\,|\,\mc{C}\,|\,(T\,T)\,|\,(\lambda\mc{V}\!:\!T.T)\,|\,(\Pi\mc{V}\!:\!T.T)$. Pairs $(A,B)\in T^2$ are called \textit{$\sigma$-assignments}, written $A\!:\!B$, and a finite sequence thereof is called a \textit{$\sigma$-pseudocontext}.
