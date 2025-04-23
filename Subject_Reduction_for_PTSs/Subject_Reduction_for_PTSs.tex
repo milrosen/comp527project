@@ -135,7 +135,7 @@
                 \vspace{-0.05in}
             \item If $\Gamma\proves(\lambda x\!:\!M.N)\!:\!P$, then $\Gamma\proves M\!:\!s_1$, $\Gamma,x\!:\!M\proves Q\!:\!s_2$, $\Gamma,x\!:\!M\proves N\!:\!Q$, $\Gamma\proves P\!:\!s_3$, and $P=_\beta\Pi x\!:\! M.Q$ for some $(s_1,s_2,s_3)\in\mc{R}$ and $\sigma$-term $Q$.
                 \vspace{-0.05in}
-            \item If $\Gamma\proves M\,N\!:\!P$, then $\Gamma\proves M\!:\!(\Pi x\!:\!A.B)$, $\Gamma\proves N\!:\!A$, and $P=_\beta B[N/x]$ for some $\sigma$-terms $A$ and $B$.
+            \item If $\Gamma\proves M\,N\!:\!P$, then $\Gamma\proves M\!:\!(\Pi x\!:\!C_1.C_2)$, $\Gamma\proves N\!:\!C_1$, and $P=_\beta C_2[N/x]$ for some $\sigma$-terms $C_1$ and $C_2$.
         \end{enumerate}
     \end{lemma}
 
@@ -155,9 +155,9 @@
     We sketch a proof of the Stripping Lemma, since it is crucial to the proof of subject reduction, and use it to provide the full proof of subject reduction for an arbitrary pure type system $\sigma$.
 
     \begin{proof}[Proof of Lemma \ref{lem:stripping}]
-        Let $\mc{D}$ denote the derivation $\Gamma\proves M\!:\!P$ in each of the five cases. Tracing $\mc{D}$ upwards from the root, taking the left branch for \textsc{App} and \textsc{Conv}, and the right branch for \textsc{Weak}, $\Pi\mathsc{-rule}$, and $\lambda\mathsc{-rule}$, we alternate between instances of \textsc{Conv} and \textsc{Weak} before the $\sigma$-term $M$ is introduced in either an axiom, \textsc{Init}, $\Pi\mathsc{-rule}$, $\lambda\mathsc{-rule}$, or \textsc{App}; these five cases correspond with the five cases for $\mc{D}$.
+        Let $\mc{D}$ denote the derivation $\Gamma\proves A\!:\!P$ in each of the five cases. Tracing $\mc{D}$ upwards from the root, taking the left branch for \textsc{App} and \textsc{Conv}, and the right branch for \textsc{Weak}, $\Pi\mathsc{-rule}$, and $\lambda\mathsc{-rule}$, we alternate between instances of \textsc{Conv} and \textsc{Weak} before the $\sigma$-term $A$ is introduced in either an axiom, \textsc{Init}, $\Pi\mathsc{-rule}$, $\lambda\mathsc{-rule}$, or \textsc{App}; these five cases correspond with the five cases for $\mc{D}$.
 
-        Due to possible applications of \textsc{Weak} and \textsc{App}, the vertex in $\mc{D}$ right after $M$ is introduced has the form $\Gamma'\proves M\!:\!P'$ for some initial segment $\Gamma'$ of $\Gamma$ and some $\sigma$-term $P'$ such that $P'=_\beta P$. Then, inspecting the (unique) rule introducing $M$, we can conclude the premises of said rule and the desired form of $P'$.
+        Due to possible applications of \textsc{Weak} and \textsc{App}, the vertex in $\mc{D}$ right after $A$ is introduced has the form $\Gamma'\proves A\!:\!P'$ for some initial segment $\Gamma'$ of $\Gamma$ and some $\sigma$-term $P'$ such that $P'=_\beta P$. Then, inspecting the (unique) rule introducing $A$, we can conclude the premises of said rule and the desired form of $P'$.
     \end{proof}
 
     \begin{proof}[Proof of Theorem \ref{thm:subject_reduction}]
