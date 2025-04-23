@@ -137,7 +137,7 @@
         \end{enumerate}
     \end{lemma}
 
-    \begin{theorem}[Subject Reduction; \cite{GN91}*{Lemma 22}]
+    \begin{theorem}[Subject Reduction; \cite{GN91}*{Lemma 22}]\label{thm:subject_reduction}
         Let $\Gamma,\Gamma'$ be $\sigma$-contexts and let $M,M',N$ be $\sigma$-terms.
         \begin{enumerate}
             \item If $\Gamma\proves M\!:\!N$ and $M\twoheadrightarrow_\beta M'$, then $\Gamma\proves M'\!:\! N$.
@@ -146,7 +146,15 @@
         \end{enumerate}
     \end{theorem}
 
-    \begin{proof}
+    \subsection*{Appendix}
+
+    We sketch a proof of the Stripping Lemma, since it is crucial to the proof of subject reduction, and provide the full proof of subject reduction for an arbitrary pure type system $\sigma$.
+
+    \begin{proof}[Proof of Lemma \ref{lem:stripping}]
+        \TODO
+    \end{proof}
+
+    \begin{proof}[Proof of Theorem \ref{thm:subject_reduction}]
         We proceed by simultaneous induction on the derivation $\mc{D}:\Gamma\proves M\!:\!N$ when $M\rightarrow_\beta M'$ and $\Gamma\rightarrow_\beta\Gamma'$; the general case follows by iteration. We first prove (1), and split into cases with similar proofs.
         \begin{itemize}\small\vspace{-0.05in}
             \item If $\mc{D}$ ends with \textsc{Init}, then there is no redex in $M$. If $\mc{D}$ ends with \textsc{Conv}, then there are derivations $\mc{D}_1:\Gamma\proves M\!:\!N'$ and $\mc{D}_2:\Gamma\proves N'\!:\! s$ for some $s\in\mc{S}$ and some $\sigma$-term $N'$ such that $N'=_\beta N$. By $\mathrm{IH}_1$, we have $\Gamma\proves M'\!:\!N'$, on which \textsc{Conv} with $\mc{D}_2$ gives $\Gamma\proves M'\!:\!N$. The case when $\mc{D}$ ends with \textsc{Weak} is similar.
