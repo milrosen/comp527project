@@ -19,7 +19,7 @@
             {\footnotesize{\textsc{Abstract.}} Following \cite{GN91} and \cite{Bar91}, we study the basics of \textit{pure type systems}, which abstract many of the constructs found in the eight systems of the \textit{$\lambda$-cube}. We start with a brief introduction to the systems of the $\lambda$-cube, discuss their expressive power, and introduce pure type systems as a unifying framework in which they can be studied. We then give a detailed proof of subject reduction for arbitrary pure type systems.}
         \end{minipage}
     \end{center}
-
+    
     Subject reduction is a crucial property of a type system that guarantees its `computational consistency' by ensuring that reductions of a well-typed expression remains well-typed, and also supports the slogan that `well-typed programs do not go wrong'. It is thus desirable that it can be stated and proven uniformly across many different type systems, and this is the goal of the present note.
 
     To this end, we follow \cite{Bar91} and work within the framework of \textit{pure type systems}, which is an abstraction of type systems based on the idea of `dependencies' between terms and types. In the simply-typed $\lambda$-calculus $\lambda_\rightarrow$, terms depend on terms: $F\,x$ is a term depending on the term $x$, and we can abstract this dependency to a function $\lambda x\!:\!\alpha_1.(F\,x)$ of type $\alpha_1\rightarrow\alpha_2$, where $F\,x\!:\!\alpha_2$. The other three ways that terms and types can be mutually dependent are present in other type systems, all extending $\lambda_\rightarrow$.
@@ -32,6 +32,7 @@
     \vspace{-0.05in}
     \begin{center}
         \begin{minipage}{0.3\textwidth}
+            \vspace{-0.15in}
             \begin{equation*}
                 \begin{tikzcd}[row sep=scriptsize, column sep=0.1in]
                     & \lambda\omega \arrow[dl, -] \arrow[rr, -] \arrow[dd, -] & & \lambda\mathrm{C} \arrow[dl, -] \arrow[dd, -] \\
@@ -42,7 +43,7 @@
                 \vspace{-0.05in}
             \end{equation*}
         \end{minipage}
-        \begin{minipage}{0.5\textwidth}
+        \begin{minipage}{0.5\textwidth}\small
             \begin{center}
                 \begin{tabular}{c|cccc}
                     Type system & \multicolumn{4}{c}{Dependencies} \\
@@ -61,11 +62,19 @@
     \end{center}
     The systems $\lambda\mathrm{P}\underline{\omega}$, $\lambda\mathrm{P}2$, and $\lambda\omega\coloneqq\lambda2\underline{\omega}$ have three kinds of dependencies, while the strongest system of them all, the \textit{calculus of constructions} $\lambda\mathrm{C}\coloneqq\lambda\mathrm{P}\omega$, have all four kinds of dependencies.
 
-    To explain the table on the right, we observe due to the mutual dependencies between terms and types, it is no longer natural to separate their definitions. Instead, we propose a uniform object, called a \textit{pseudoterm}, and consider the judgement $M\!:\!N$ between pseudoterms $M$ and $N$. These pseudoterms include terms, types, and kinds, so this begs the question: what is $\ast$? If $\ast\!:\!\ast$, then one might encounter a Russell-like paradox of the `type of all types', so instead, we introduce a new symbol $\square$, the `sort of all kinds', and assert that $\ast\!:\!\square$. Similarly, $(\ast\to\ast)\!:\!\square$ and $(\N\to\ast)\!:\!\square$, so sorts also capture the identity of constructors.
+    To explain the table on the right, we observe due to the mutual dependencies between terms and types, it is no longer natural to separate their definitions. Instead, we propose a uniform object, called a \textit{pseudoterm}, and consider a judgement $M\!:\!N$ between pseudoterms $M$ and $N$. These pseudoterms include terms, types, and kinds, so this begs the question: what is $\ast$? If $\ast\!:\!\ast$, then one might encounter a Russell-like paradox of the `type of all types', so instead, we introduce a new symbol $\square$, the `sort of all kinds', and assert that $\ast\!:\!\square$. Similarly, $(\ast\to\ast)\!:\!\square$ and $(\N\to\ast)\!:\!\square$, so sorts also capture the identity of constructors.
+
+    In the table, the notation $(s_1,s_2)$ means that inhabitants of $s_2$ can depend on those of $s_1$, and moreover, that we can abstract over inhabitants of $s_1$ and output those of $s_2$. For instance, the `$(\square,\ast)$' in $\lambda2$ indicate that terms (inhabitants of $\ast$) depend on types (inhabitants of $\square$), and that we can abstract over types and output terms (say, in $\lambda\alpha\!:\!\ast.I_\alpha$). Note that $(\ast\to\ast)\!:\!\square$, so this allows for higher-order polymorphism as well.
+
+    \subsection*{Pure type systems}
+
+    To delineate the hierarchy of terms, types, and kinds, one naturally starts abstractly and axiomatizes the notion of a type system.
 
     \begin{definition}
         A \textit{pure type system} is a tuple $\sigma\coloneqq(\mc{C},\mc{V},\mc{S},\mc{A},\mc{R})$ consisting of a set $\mc{C}$ of \textit{constants}, a set $\mc{V}$ of \textit{variables}, a set $\mc{S}\subeq\mc{C}$ of \textit{sorts}, a set $\mc{A}\subeq\mc{C}^2$ of \textit{axioms}, and a set $\mc{R}\subeq\mc{S}^3$ of \textit{rules}.
     \end{definition}
+
+    Intuitively, \textit{sorts} are universes imposing some sort (pun intended) of classification, \textit{constants} are symbols living in a sort/constant as dictated by \textit{axioms} (for instance, $0\!:\!\N$, $\N\!:\!\ast$, and $\ast\!:\!\square$), and the \textit{rules} restrict the formation of abstractions as motivated above. For the systems in the $\lambda$-cube, we write $(s_1,s_2)\coloneqq(s_1,s_2,s_2)$.
 
     \begin{notation}
         Throughout, let $\sigma$ be denote an arbitrary pure type system.
@@ -140,6 +149,7 @@
             \item If $\Gamma\proves M\!:\!N$ and $\Gamma\twoheadrightarrow_\beta\Gamma'$, then $\Gamma'\proves M\!:\! N$.
         \end{enumerate}
     \end{theorem}
+
     \begin{proof}
         We proceed by simultaneous induction on the derivation $\mc{D}:\Gamma\proves M\!:\!N$ when $M\rightarrow_\beta M'$ and $\Gamma\rightarrow_\beta\Gamma'$; the general case follows by iteration. We first prove (1), and split into cases with similar proofs.
         \begin{itemize}\small\vspace{-0.05in}
