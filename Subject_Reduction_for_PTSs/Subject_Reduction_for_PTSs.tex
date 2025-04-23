@@ -155,7 +155,9 @@
     We sketch a proof of the Stripping Lemma, since it is crucial to the proof of subject reduction, and provide the full proof of subject reduction for an arbitrary pure type system $\sigma$.
 
     \begin{proof}[Proof of Lemma \ref{lem:stripping}]
-        \TODO
+        Let $\mc{D}$ denote the derivation $\Gamma\proves M\!:\!P$ in each of the five cases. Tracing $\mc{D}$ upwards from the root, taking the left branch for \textsc{App} and \textsc{Conv}, and the right branch for \textsc{Weak}, $\Pi\mathsc{-rule}$, and $\lambda\mathsc{-rule}$, we alternate between instances of \textsc{Conv} and \textsc{Weak} before the $\sigma$-term $M$ is introduced in either an axiom, \textsc{Init}, $\Pi\mathsc{-rule}$, $\lambda\mathsc{-rule}$, and \textsc{App}; these five cases correspond with the five cases for $\mc{D}$.
+
+        Due to possible applications of \textsc{Weak} and \textsc{App}, the vertex in $\mc{D}$ right after $M$ is introduced has the form $\Gamma'\proves M\!:\!P'$ for some initial segment $\Gamma'$ of $\Gamma$ and some $\sigma$-term $P'$ such that $P'=_\beta P$. Then, inspecting the (unique) rule introducing $M$, we can conclude the premises of said rule and the desired form of $P'$.
     \end{proof}
 
     \begin{proof}[Proof of Theorem \ref{thm:subject_reduction}]
