@@ -6,4 +6,4 @@ COMP 527 (Logic and Computation) project on _Pure Type systems_ by Charlotte Mar
 - Milton Rosenbaum: Mechanize the proofs in Beluga.
 - Zhaoshen Zhai: Prove the Stripping Lemma and write the extended abstract.
 
-We consent to posting this project on Ed.
+We consent to the video (https://www.youtube.com/watch?v=6golOB-Mn3U) being posted on Ed.
